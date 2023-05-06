@@ -134,7 +134,6 @@ CREATE TABLE miejscowosc (
 
 ALTER TABLE miejscowosc ADD CONSTRAINT miejscowosc_pk PRIMARY KEY ( id_powiatu,
                                                                     id_miejscowosci );
-ALTER TABLE miejscowosc ADD CONSTRAINT miejscowosc_kod_pocztowy_u UNIQUE (kod_pocztowy);
 ALTER TABLE miejscowosc ADD CONSTRAINT miejscowosc_kod_pocztowy_check CHECK (
     LENGTH(kod_pocztowy) = 6 AND SUBSTR(kod_pocztowy, 3, 1) = '-');
 
@@ -155,7 +154,7 @@ CREATE TABLE pracownik (
     nr_mieszkania   INTEGER,
     pesel           VARCHAR2(12 CHAR) NOT NULL,
     email           VARCHAR2(50 CHAR) NOT NULL,
-    zablokowany     NUMBER,
+    zablokowany     NUMBER(1),
     id_stanowiska   INTEGER NOT NULL,
     id_wojewodztwa  INTEGER NOT NULL,
     id_powiatu      INTEGER NOT NULL,
@@ -195,7 +194,7 @@ ALTER TABLE samochod_t ADD CONSTRAINT samochod_nr_rej_u UNIQUE ( nr_rejestracyjn
 CREATE TABLE stanowisko (
     id_stanowiska INTEGER NOT NULL,
     nazwa         VARCHAR2(30 CHAR),
-    kadrowy       NUMBER
+    kadrowy       NUMBER(1)
 );
 
 ALTER TABLE stanowisko ADD CONSTRAINT stanowisko_pk PRIMARY KEY ( id_stanowiska );
@@ -227,7 +226,7 @@ ALTER TABLE urzadzenie_elektroniczne_t ADD CONSTRAINT urzadzenie_el_nr_ser_u UNI
 CREATE TABLE wniosek_bonus_t (
     id_wniosku      INTEGER NOT NULL,
     stawka          NUMBER(10, 2),
-    czy_jednorazowy NUMBER NOT NULL
+    czy_jednorazowy NUMBER(1) NOT NULL
 );
 
 ALTER TABLE wniosek_bonus_t ADD CONSTRAINT wniosek_bonus_pk PRIMARY KEY ( id_wniosku );
