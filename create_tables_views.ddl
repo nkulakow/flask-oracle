@@ -1,3 +1,5 @@
+-- dropping 
+
 DROP MATERIALIZED VIEW Benefit;
 
 DROP MATERIALIZED VIEW Inny_benefit;
@@ -60,9 +62,7 @@ DROP TABLE zespol CASCADE CONSTRAINTS;
 
 DROP TABLE zespol_pracownik CASCADE CONSTRAINTS;
 
--- predefined type, no DDL - MDSYS.SDO_GEOMETRY
-
--- predefined type, no DDL - XMLTYPE
+-- creating tables
 
 CREATE TABLE benefit_t (
     id_benefitu     INTEGER NOT NULL,
@@ -102,6 +102,11 @@ CREATE TABLE dane_kontaktowe (
 );
 
 ALTER TABLE dane_kontaktowe ADD CONSTRAINT dane_kontaktowe_pk PRIMARY KEY ( id_danych );
+ALTER TABLE dane_kontaktowe ADD CONSTRAINT dane_kontaktowe_nr_telefonu_u UNIQUE ( nr_telefonu );
+ALTER TABLE dane_kontaktowe ADD CONSTRAINT dane_kontaktowe_fax_u UNIQUE (fax);
+ALTER TABLE dane_kontaktowe ADD CONSTRAINT dane_kontaktowe_email_u UNIQUE ( email_prywatny );
+
+
 
 CREATE TABLE dane_logowania (
     id_loginu           INTEGER NOT NULL,
@@ -111,6 +116,7 @@ CREATE TABLE dane_logowania (
 );
 
 ALTER TABLE dane_logowania ADD CONSTRAINT dane_logowania_pk PRIMARY KEY ( id_loginu );
+ALTER TABLE dane_logowania ADD CONSTRAINT dane_logowania_login_u UNIQUE ( login );
 
 CREATE TABLE inny_benefit_t (
     id_benefitu INTEGER NOT NULL,
@@ -128,6 +134,9 @@ CREATE TABLE miejscowosc (
 
 ALTER TABLE miejscowosc ADD CONSTRAINT miejscowosc_pk PRIMARY KEY ( id_powiatu,
                                                                     id_miejscowosci );
+ALTER TABLE miejscowosc ADD CONSTRAINT miejscowosc_kod_pocztowy_u UNIQUE (kod_pocztowy);
+ALTER TABLE miejscowosc ADD CONSTRAINT miejscowosc_kod_pocztowy_check CHECK (
+    LENGTH(kod_pocztowy) = 6 AND SUBSTR(kod_pocztowy, 3, 1) = '-');
 
 CREATE TABLE powiat (
     id_powiatu     INTEGER NOT NULL,
@@ -154,6 +163,10 @@ CREATE TABLE pracownik (
 );
 
 ALTER TABLE pracownik ADD CONSTRAINT pracownik_pk PRIMARY KEY ( id_pracownika );
+ALTER TABLE pracownik ADD CONSTRAINT pracownik_pesel_u UNIQUE (pesel);
+ALTER TABLE pracownik ADD CONSTRAINT pracownik_pesel_check CHECK (
+    LENGTH(pesel)=11 AND REGEXP_LIKE(pesel, '^[0-9]+$'));
+ALTER TABLE pracownik ADD CONSTRAINT pracownik_email_u UNIQUE (email);
 
 CREATE TABLE pracownik_logowanie (
     id_pracownika INTEGER NOT NULL,
@@ -177,6 +190,7 @@ CREATE TABLE samochod_t (
 );
 
 ALTER TABLE samochod_t ADD CONSTRAINT samochod_pk PRIMARY KEY ( id_benefitu );
+ALTER TABLE samochod_t ADD CONSTRAINT samochod_nr_rej_u UNIQUE ( nr_rejestracyjny );
 
 CREATE TABLE stanowisko (
     id_stanowiska INTEGER NOT NULL,
@@ -193,7 +207,7 @@ CREATE TABLE umowa (
     data_zakonczenia  DATE NOT NULL,
     kwota_rozliczenia NUMBER(10, 2) NOT NULL,
     waluta            VARCHAR2(3 CHAR) NOT NULL,
-    nr_konta          VARCHAR2(20 CHAR) NOT NULL,
+    nr_konta          VARCHAR2(30 CHAR) NOT NULL,
     id_pracownika     INTEGER NOT NULL
 );
 
@@ -201,13 +215,14 @@ ALTER TABLE umowa ADD CONSTRAINT umowa_pk PRIMARY KEY ( id_umowy );
 
 CREATE TABLE urzadzenie_elektroniczne_t (
     id_benefitu INTEGER NOT NULL,
-    rodzaj      VARCHAR2(15 CHAR) NOT NULL,
+    rodzaj      VARCHAR2(20 CHAR) NOT NULL,
     model       VARCHAR2(30 CHAR),
     marka       VARCHAR2(20 CHAR),
     nr_seryjny  VARCHAR2(20 CHAR)
 );
 
 ALTER TABLE urzadzenie_elektroniczne_t ADD CONSTRAINT urzadzenie_elektroniczne_pk PRIMARY KEY ( id_benefitu );
+ALTER TABLE urzadzenie_elektroniczne_t ADD CONSTRAINT urzadzenie_el_nr_ser_u UNIQUE ( nr_seryjny );
 
 CREATE TABLE wniosek_bonus_t (
     id_wniosku      INTEGER NOT NULL,
@@ -216,6 +231,8 @@ CREATE TABLE wniosek_bonus_t (
 );
 
 ALTER TABLE wniosek_bonus_t ADD CONSTRAINT wniosek_bonus_pk PRIMARY KEY ( id_wniosku );
+ALTER TABLE wniosek_bonus_t ADD CONSTRAINT wniosek_bonus_stawka_check CHECK (
+    stawka > 0 );
 
 CREATE TABLE wniosek_inny_t (
     id_wniosku  INTEGER NOT NULL,
@@ -265,6 +282,9 @@ CREATE TABLE zespol_pracownik (
     id_pracownika INTEGER NOT NULL,
     id_zespolu    INTEGER NOT NULL
 );
+
+
+-- foreign keys
 
 ALTER TABLE urzadzenie_elektroniczne_t
     ADD CONSTRAINT benefit_fk FOREIGN KEY ( id_benefitu )
@@ -359,6 +379,9 @@ ALTER TABLE pracownik
 ALTER TABLE zespol_pracownik
     ADD CONSTRAINT zespol_fk FOREIGN KEY ( id_zespolu )
         REFERENCES zespol ( id_zespolu );
+
+
+-- creating materilized views
 
 CREATE MATERIALIZED VIEW Benefit ( Id_benefitu, Nazwa, Data_przyznania, Data_odebrania, Id_pracownika, Kwota, Nr_rejestracyjny, Marka, Model, Ostatni_przeglad, Nastepny_przeglad, Rodzaj, Model_1, Marka_1, Nr_seryjny, Krotki_opis )
 BUILD IMMEDIATE
