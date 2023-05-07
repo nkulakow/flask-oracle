@@ -1,4 +1,4 @@
-CREATE PROCEDURE przypisz_benefit (emp_id NUMBER, benef_id NUMBER, date_end DATE)
+CREATE OR REPLACE PROCEDURE przypisz_benefit (emp_id NUMBER, benef_id NUMBER, date_end DATE)
 AS
     curr_emp_id    NUMBER;
     end_date    DATE;
@@ -22,5 +22,6 @@ BEGIN
         WHERE id_benefitu = benef_id;
     END IF;
 END;
+/
 
 commit;
