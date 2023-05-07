@@ -201,7 +201,7 @@ ALTER TABLE stanowisko ADD CONSTRAINT stanowisko_pk PRIMARY KEY ( id_stanowiska 
 
 CREATE TABLE umowa (
     id_umowy          INTEGER NOT NULL,
-    rodzaj_umowy      VARCHAR2(10 CHAR) NOT NULL,
+    rodzaj_umowy      VARCHAR2(20 CHAR) NOT NULL,
     data_podpisania   DATE NOT NULL,
     data_zakonczenia  DATE NOT NULL,
     kwota_rozliczenia NUMBER(10, 2) NOT NULL,
