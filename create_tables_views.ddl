@@ -244,7 +244,7 @@ CREATE TABLE wniosek_t (
     id_wniosku       INTEGER NOT NULL,
     data_zlozenia    DATE NOT NULL,
     nazwa_zalacznika VARCHAR2(40 CHAR),
-    status           VARCHAR2(10 CHAR),
+    status           VARCHAR2(15 CHAR),
     id_pracownika    INTEGER NOT NULL
 );
 
@@ -254,7 +254,7 @@ CREATE TABLE wniosek_urlop_t (
     id_wniosku       INTEGER NOT NULL,
     data_rozpoczecia DATE NOT NULL,
     data_zakonczenia DATE NOT NULL,
-    rodzaj           VARCHAR2(10 CHAR) NOT NULL
+    rodzaj           VARCHAR2(30 CHAR) NOT NULL
 );
 
 ALTER TABLE wniosek_urlop_t ADD CONSTRAINT wniosek_urlop_pk PRIMARY KEY ( id_wniosku );
