@@ -156,7 +156,6 @@ CREATE TABLE pracownik (
     email           VARCHAR2(50 CHAR) NOT NULL,
     zablokowany     NUMBER(1),
     id_stanowiska   INTEGER NOT NULL,
-    id_wojewodztwa  INTEGER NOT NULL,
     id_powiatu      INTEGER NOT NULL,
     id_miejscowosci INTEGER NOT NULL
 );
@@ -272,7 +271,7 @@ CREATE TABLE zespol (
     data_zalozenia   DATE,
     data_rozwiazania DATE,
     data_realizacji  DATE,
-    id_pracownika    INTEGER NOT NULL
+    id_lidera    INTEGER NOT NULL
 );
 
 ALTER TABLE zespol ADD CONSTRAINT zespol_pk PRIMARY KEY ( id_zespolu );
@@ -324,7 +323,7 @@ ALTER TABLE certyfikat_pracownik
         REFERENCES pracownik ( id_pracownika );
 
 ALTER TABLE zespol
-    ADD CONSTRAINT pracownik_fkv1 FOREIGN KEY ( id_pracownika )
+    ADD CONSTRAINT pracownik_fkv1 FOREIGN KEY ( id_lidera )
         REFERENCES pracownik ( id_pracownika );
 
 ALTER TABLE benefit_t
@@ -371,10 +370,6 @@ ALTER TABLE powiat
     ADD CONSTRAINT wojewodztwo_fk FOREIGN KEY ( id_wojewodztwa )
         REFERENCES wojewodztwo ( id_wojewodztwa );
 
-ALTER TABLE pracownik
-    ADD CONSTRAINT wojewodztwo_fkv2 FOREIGN KEY ( id_wojewodztwa )
-        REFERENCES wojewodztwo ( id_wojewodztwa );
-
 ALTER TABLE zespol_pracownik
     ADD CONSTRAINT zespol_fk FOREIGN KEY ( id_zespolu )
         REFERENCES zespol ( id_zespolu );
@@ -384,7 +379,7 @@ ALTER TABLE zespol_pracownik
 
 CREATE MATERIALIZED VIEW Benefit ( Id_benefitu, Nazwa, Data_przyznania, Data_odebrania, Id_pracownika, Kwota, Nr_rejestracyjny, Marka, Model, Ostatni_przeglad, Nastepny_przeglad, Rodzaj, Model_1, Marka_1, Nr_seryjny, Krotki_opis )
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT b.*, 
 p.Kwota as Kwota,
 s.Nr_rejestracyjny as Nr_rejestracyjny,
@@ -409,7 +404,7 @@ b.Id_benefitu = ib.Id_benefitu (+)
 
 CREATE MATERIALIZED VIEW Inny_benefit ( Id_benefitu, Nazwa, Data_przyznania, Data_odebrania, Id_pracownika, Krotki_opis ) 
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT b.*, 
 ib.Krotki_opis as Krotki_opis
 FROM BENEFIT_T b, INNY_BENEFIT_T ib
@@ -418,7 +413,7 @@ WHERE b.Id_benefitu = ib.Id_benefitu
 
 CREATE MATERIALIZED VIEW Premia ( Id_benefitu, Nazwa, Data_przyznania, Data_odebrania, Id_pracownika, Kwota ) 
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT b.*, 
 p.Kwota as Kwota
 FROM BENEFIT_T b, PREMIA_T p
@@ -427,7 +422,7 @@ WHERE b.Id_benefitu = p.Id_benefitu
 
 CREATE MATERIALIZED VIEW Samochod ( Id_benefitu, Nazwa, Data_przyznania, Data_odebrania, Id_pracownika, Nr_rejestracyjny, Marka, Model, Ostatni_przeglad, Nastepny_przeglad ) 
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT b.*, 
 s.Nr_rejestracyjny as Nr_rejestracyjny,
 s.Marka as Marka,
@@ -440,7 +435,7 @@ WHERE b.Id_benefitu = s.Id_benefitu
 
 CREATE MATERIALIZED VIEW Urzadzenie_elektroniczne ( Id_benefitu, Nazwa, Data_przyznania, Data_odebrania, Id_pracownika, Rodzaj, Model, Marka, Nr_seryjny ) 
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT b.*, 
 u.Rodzaj as Rodzaj,
 u.Model as Model,
@@ -452,7 +447,7 @@ WHERE b.Id_benefitu = u.Id_benefitu
 
 CREATE MATERIALIZED VIEW Wniosek ( Id_wniosku, Data_zlozenia, Nazwa_zalacznika, Status, Id_pracownika, Stawka, Czy_jednorazowy, Data_rozpoczecia, Data_zakonczenia, Rodzaj, krotki_opis ) 
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT w.*,
 wb.Stawka as Stawka,
 wb.Czy_jednorazowy as Czy_jednorazowy,
@@ -472,7 +467,7 @@ w.Id_wniosku = win.Id_wniosku (+)
 
 CREATE MATERIALIZED VIEW Wniosek_bonus ( Id_wniosku, Data_zlozenia, Nazwa_zalacznika, Status, Id_pracownika, Stawka, Czy_jednorazowy ) 
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT w.*, 
 wb.Stawka as Stawka,
 wb.Czy_jednorazowy as Czy_jednorazowy
@@ -482,7 +477,7 @@ WHERE w.Id_wniosku=wb.Id_wniosku
 
 CREATE MATERIALIZED VIEW Wniosek_inny ( Id_wniosku, Data_zlozenia, Nazwa_zalacznika, Status, Id_pracownika, krotki_opis ) 
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT w.*, win.krotki_opis as krotki_opis 
 FROM WNIOSEK_T w, WNIOSEK_INNY_T win 
 WHERE w.Id_wniosku=win.Id_wniosku 
@@ -490,7 +485,7 @@ WHERE w.Id_wniosku=win.Id_wniosku
 
 CREATE MATERIALIZED VIEW Wniosek_urlop ( Id_wniosku, Data_zlozenia, Nazwa_zalacznika, Status, Id_pracownika, Data_rozpoczecia, Data_zakonczenia, Rodzaj ) 
 BUILD IMMEDIATE
-REFRESH FORCE ON DEMAND AS
+REFRESH FORCE ON COMMIT AS
 SELECT w.*, 
 wu.Data_rozpoczecia as Data_rozpoczecia,
 wu.Data_zakonczenia as Data_zakonczenia,
@@ -498,3 +493,5 @@ wu.Rodzaj as Rodzaj
 FROM WNIOSEK_T w, WNIOSEK_URLOP_T wu 
 WHERE w.Id_wniosku=wu.Id_wniosku 
 ;
+
+commit;
