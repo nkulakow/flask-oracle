@@ -113,7 +113,7 @@ ALTER TABLE dane_kontaktowe ADD CONSTRAINT dane_kontaktowe_email_u UNIQUE ( emai
 CREATE TABLE dane_logowania (
     id_loginu           INTEGER NOT NULL,
     login               VARCHAR2(30 CHAR) NOT NULL,
-    skrot               VARCHAR2(30 CHAR) NOT NULL,
+    skrot               VARCHAR2(65 CHAR) NOT NULL,
     ostatnio_zalogowany DATE
 );
 
