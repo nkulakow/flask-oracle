@@ -271,7 +271,7 @@ CREATE TABLE zespol (
     data_zalozenia   DATE,
     data_rozwiazania DATE,
     data_realizacji  DATE,
-    id_lidera    INTEGER NOT NULL
+    id_lidera    INTEGER
 );
 
 ALTER TABLE zespol ADD CONSTRAINT zespol_pk PRIMARY KEY ( id_zespolu );
