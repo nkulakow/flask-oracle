@@ -73,6 +73,8 @@ CREATE TABLE benefit_t (
 );
 
 ALTER TABLE benefit_t ADD CONSTRAINT benefit_pk PRIMARY KEY ( id_benefitu );
+ALTER TABLE benefit_t ADD CONSTRAINT benefit_t_dates_check CHECK (
+    data_odebrania >= data_przyznania);
 
 CREATE TABLE certyfikat (
     id_certyfikatu   INTEGER NOT NULL,
@@ -189,6 +191,8 @@ CREATE TABLE samochod_t (
 
 ALTER TABLE samochod_t ADD CONSTRAINT samochod_pk PRIMARY KEY ( id_benefitu );
 ALTER TABLE samochod_t ADD CONSTRAINT samochod_nr_rej_u UNIQUE ( nr_rejestracyjny );
+ALTER TABLE samochod_t ADD CONSTRAINT samochod_date_check CHECK (
+    (ostatni_przeglad IS NULL) OR (nastepny_przeglad IS NULL) OR (nastepny_przeglad >= ostatni_przeglad));
 
 CREATE TABLE stanowisko (
     id_stanowiska INTEGER NOT NULL,
@@ -210,6 +214,8 @@ CREATE TABLE umowa (
 );
 
 ALTER TABLE umowa ADD CONSTRAINT umowa_pk PRIMARY KEY ( id_umowy );
+ALTER TABLE umowa ADD CONSTRAINT umowa_date_check CHECK (
+    data_zakonczenia >= data_podpisania);
 
 CREATE TABLE urzadzenie_elektroniczne_t (
     id_benefitu INTEGER NOT NULL,
@@ -257,6 +263,8 @@ CREATE TABLE wniosek_urlop_t (
 );
 
 ALTER TABLE wniosek_urlop_t ADD CONSTRAINT wniosek_urlop_pk PRIMARY KEY ( id_wniosku );
+ALTER TABLE wniosek_urlop_t ADD CONSTRAINT wniosek_urlop_date_check CHECK (
+    data_zakonczenia >= data_rozpoczecia );
 
 CREATE TABLE wojewodztwo (
     id_wojewodztwa INTEGER NOT NULL,
@@ -275,6 +283,12 @@ CREATE TABLE zespol (
 );
 
 ALTER TABLE zespol ADD CONSTRAINT zespol_pk PRIMARY KEY ( id_zespolu );
+ALTER TABLE zespol ADD CONSTRAINT zespol_date_check CHECK (
+    ((data_zalozenia IS NULL) AND ((data_rozwiazania>data_realizacji) OR (data_rozwiazania IS NULL) OR (data_realizacji IS NULL))) OR
+    ((data_rozwiazania IS NULL) AND ((data_realizacji>data_zalozenia) OR (data_realizacji IS NULL))) OR
+    ((data_realizacji IS NULL) AND (data_rozwiazania>data_zalozenia)) OR
+    ((data_rozwiazania>data_realizacji) AND (data_realizacji>data_zalozenia)));
+
 
 CREATE TABLE zespol_pracownik (
     id_pracownika INTEGER NOT NULL,
