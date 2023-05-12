@@ -60,4 +60,27 @@ BEGIN
 END;
 /
 
+
+
+CREATE OR REPLACE TRIGGER zablokuj_pracownika_trigger
+BEFORE UPDATE OF zablokowany ON pracownik
+FOR EACH ROW
+WHEN (new.zablokowany = 1)
+DECLARE
+    l_zespolow    NUMBER;
+BEGIN
+    --DLA LIDERA
+    SELECT COUNT(*)
+    INTO l_zespolow
+    FROM zespol
+    WHERE id_lidera = :old.id_pracownika AND (data_rozwiazania IS NULL OR data_rozwiazania > SYSDATE);
+
+    IF l_zespolow > 0 THEN
+        UPDATE zespol
+        SET id_lidera = NULL
+        WHERE id_lidera = :old.id_pracownika AND (data_rozwiazania IS NULL OR data_rozwiazania > SYSDATE);
+    END IF;
+END;
+/
+
 commit;

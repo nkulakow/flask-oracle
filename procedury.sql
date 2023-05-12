@@ -29,29 +29,6 @@ END;
 /
 
 
-CREATE OR REPLACE PROCEDURE zablokuj_pracownika (emp_id NUMBER)
-AS
-    l_zespolow    NUMBER;
-BEGIN
-    --DLA LIDERA
-    SELECT COUNT(*)
-    INTO l_zespolow
-    FROM zespol
-    WHERE id_lidera = emp_id AND (data_rozwiazania IS NULL OR data_rozwiazania > SYSDATE);
-
-    IF l_zespolow > 0 THEN
-        UPDATE zespol
-        SET id_lidera = NULL
-        WHERE id_lidera = emp_id AND (data_rozwiazania IS NULL OR data_rozwiazania > SYSDATE);
-    END IF;
-    
-    UPDATE pracownik
-    SET zablokowany = 1
-    WHERE id_pracownika = emp_id;
-END;
-/
-
-
 CREATE OR REPLACE PROCEDURE odblokuj_pracownika (emp_id NUMBER)
 AS
 BEGIN    
@@ -60,5 +37,7 @@ BEGIN
     WHERE id_pracownika = emp_id;
 END;
 /
+
+
 
 commit;
