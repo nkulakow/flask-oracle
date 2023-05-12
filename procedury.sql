@@ -16,6 +16,10 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20001,'Nowa data odebrania nie może być wcześniejsza od aktualnej');
     END IF;
     
+    IF new_date_end < SYSDATE THEN
+        RAISE_APPLICATION_ERROR(-20001,'Nowa data odebrania nie może być wcześniejsz od daty dzisiejszej');
+    END IF;
+    
     UPDATE benefit_t
     SET data_odebrania = new_date_end
     WHERE id_benefitu = benef_id;
