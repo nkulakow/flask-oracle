@@ -29,15 +29,4 @@ END;
 /
 
 
-CREATE OR REPLACE PROCEDURE odblokuj_pracownika (emp_id NUMBER)
-AS
-BEGIN    
-    UPDATE pracownik
-    SET zablokowany = 0
-    WHERE id_pracownika = emp_id;
-END;
-/
-
-
-
 commit;
