@@ -32,5 +32,13 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE Assert (Condition NUMBER, Message VARCHAR2) AS
+BEGIN
+      IF (Condition = 1) THEN
+         RETURN; 
+      END IF;
+      RAISE_APPLICATION_ERROR(-20002, Message);
+End;
+/
 
 commit;
