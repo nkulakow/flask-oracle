@@ -8,7 +8,7 @@ BEGIN
     FROM benefit_t
     WHERE id_benefitu = benef_id;
 
-    IF curr_emp_id IS NOT NULL AND curr_emp_id != emp_id AND end_date > SYSDATE THEN
+    IF curr_emp_id IS NOT NULL AND curr_emp_id != emp_id AND (end_date > SYSDATE OR end_date IS NULL) THEN
         RAISE_APPLICATION_ERROR(-20001,'Benefit jest przypisany aktualnie do innego pracownika');
     END IF;
     
@@ -17,7 +17,7 @@ BEGIN
     END IF;
     
     IF new_date_end < SYSDATE THEN
-        RAISE_APPLICATION_ERROR(-20001,'Nowa data odebrania nie może być wcześniejsz od daty dzisiejszej');
+        RAISE_APPLICATION_ERROR(-20001,'Nowa data odebrania nie może być wcześniejsza od daty dzisiejszej');
     END IF;
     
     UPDATE benefit_t

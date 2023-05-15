@@ -160,7 +160,7 @@ END;
 -- Wersja 4 Pr�ba przypisania benefitu ktory juz byl przypisany do kogos innego
 DECLARE 
     err_msg VARCHAR2(128);
-    emp_id NUMBER := 3;
+    emp_id NUMBER := 5;
     benef_id NUMBER := 1;
     date_end DATE := SYSDATE + 1;
 BEGIN
