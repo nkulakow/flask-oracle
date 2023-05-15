@@ -38,7 +38,7 @@ END;
 select count(*) from benefit_t where benefit_t.id_benefitu = 14;
 
 -- 6. Testy wprowadzonych ogranicze?/zabezpiecze?/procedur
--- 6.1 Usuni?cie lidera
+-- 6.1 Usuniecie lidera (zwraca blad)
 DECLARE
     err_msg VARCHAR2(74);
 BEGIN
