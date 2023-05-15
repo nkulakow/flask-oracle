@@ -40,7 +40,7 @@ select count(*) from benefit_t where benefit_t.id_benefitu = 14;
 -- 6. Testy wprowadzonych ogranicze?/zabezpiecze?/procedur
 -- 6.1 Usuni?cie lidera
 DECLARE
-    err_msg VARCHAR2(64);
+    err_msg VARCHAR2(74);
 BEGIN
     DELETE FROM pracownik WHERE id_pracownika = 4;
 EXCEPTION
@@ -71,7 +71,7 @@ END;
 
 -- Usuni?cie benefitu
 DECLARE 
-    err_msg VARCHAR2(64);
+    err_msg VARCHAR2(74);
 BEGIN
     DELETE FROM benefit_t WHERE id_benefitu = 1;
 EXCEPTION
@@ -157,7 +157,7 @@ WHEN OTHERS THEN
 END;
 /
 
--- Wersja 4 Próba przypisania benefitu ktory juz byl przypisany do kogos innego
+-- Wersja 4 Prï¿½ba przypisania benefitu ktory juz byl przypisany do kogos innego
 DECLARE 
     err_msg VARCHAR2(128);
     emp_id NUMBER := 3;
