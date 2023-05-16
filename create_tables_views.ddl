@@ -287,7 +287,7 @@ ALTER TABLE zespol ADD CONSTRAINT zespol_date_check CHECK (
     ((data_zalozenia IS NULL) AND ((data_rozwiazania>data_realizacji) OR (data_rozwiazania IS NULL) OR (data_realizacji IS NULL))) OR
     ((data_rozwiazania IS NULL) AND ((data_realizacji>data_zalozenia) OR (data_realizacji IS NULL))) OR
     ((data_realizacji IS NULL) AND (data_rozwiazania>data_zalozenia)) OR
-    ((data_rozwiazania>data_realizacji) AND (data_realizacji>data_zalozenia)));
+    ((data_realizacji IS NOT NULL) AND (data_rozwiazania>data_realizacji) AND (data_realizacji>data_zalozenia)));
 
 
 CREATE TABLE zespol_pracownik (

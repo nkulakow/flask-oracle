@@ -324,7 +324,6 @@ WHEN OTHERS THEN
 END;
 /
 
--- !!!!! Tymczasowa wersja testu moze do poprawy po zaimplementowaniu funkcji podobnej do catch
 -- Wersja 3 przypisanie z data przeszla (zwraca blad)
 DECLARE 
     err_msg VARCHAR2(128);
@@ -391,6 +390,86 @@ BEGIN
     SELECT count(*) INTO assert_num FROM benefit_t;
     Assert(CASE WHEN assert_num = benef_count THEN 1 ELSE 0 END, 'Usuniecie pracownika zmienilo ilosc benefitow w tabeli');
     ROLLBACK;
+EXCEPTION
+WHEN OTHERS THEN
+    ROLLBACK;
+    err_msg := SUBSTR(SQLERRM, 1, 128);
+    dbms_output.put_line(err_msg);
+END;
+/
+
+-- 7. dodatkowe - testy na poprawność skomplikowanych CHECK
+-- 7.1 miejscowosc_kod_pocztowy_check
+DECLARE
+    err_msg VARCHAR2(128);
+BEGIN 
+INSERT INTO miejscowosc VALUES (17, 27, 'Test_Miasta', '90001-');
+EXCEPTION
+WHEN OTHERS THEN
+    ROLLBACK;
+    err_msg := SUBSTR(SQLERRM, 1, 128);
+    dbms_output.put_line(err_msg);
+END;
+/
+-- 7.2 pracownik_pesel_check
+DECLARE
+    err_msg VARCHAR2(128);
+BEGIN 
+INSERT INTO pracownik VALUES (1, 'Test', 'Test', 'Test', 110, 1, '8108263742a', 'test@firma.com', 0, 2, 1, 1);
+EXCEPTION
+WHEN OTHERS THEN
+    ROLLBACK;
+    err_msg := SUBSTR(SQLERRM, 1, 128);
+    dbms_output.put_line(err_msg);
+END;
+/
+-- 7.2 samochod_date_check
+DECLARE
+    sam_id NUMBER := 1110;
+    err_msg VARCHAR2(128);
+    count_id NUMBER := 0;
+BEGIN 
+SELECT count(*) INTO count_id FROM benefit_t WHERE id_benefitu = sam_id;
+Assert(CASE WHEN count_id = 0 THEN 1 ELSE 0 END, 'Istnieje benefit o takim id');
+
+INSERT INTO benefit_t VALUES (sam_id, 'Samochod', TO_DATE('19/02/2022', 'DD/MM/YYYY'), NULL, 1);
+INSERT INTO samochod_t VALUES (sam_id, 'ABC TEST', 'Volvo', NULL, TO_DATE('19/02/2023', 'DD/MM/YYYY'), TO_DATE('13/02/2023', 'DD/MM/YYYY'));
+EXCEPTION
+WHEN OTHERS THEN
+    ROLLBACK;
+    err_msg := SUBSTR(SQLERRM, 1, 128);
+    dbms_output.put_line(err_msg);
+END;
+/
+--7.3 zespol_date_check wersja 1 - data zalozenia > data rozwiazania
+DECLARE
+    err_msg VARCHAR2(128);
+BEGIN 
+INSERT INTO zespol VALUES (1110, 'Test', TO_DATE('01/05/2022', 'DD/MM/YYYY'), TO_DATE('01/04/1999', 'DD/MM/YYYY'), NULL, 1);
+EXCEPTION
+WHEN OTHERS THEN
+    ROLLBACK;
+    err_msg := SUBSTR(SQLERRM, 1, 128);
+    dbms_output.put_line(err_msg);
+END;
+/
+--7.3 zespol_date_check wersja 2 - data zalozenia > data realizacji
+DECLARE
+    err_msg VARCHAR2(128);
+BEGIN 
+INSERT INTO zespol VALUES (1110, 'Test', TO_DATE('01/05/2022', 'DD/MM/YYYY'), TO_DATE('01/04/2026', 'DD/MM/YYYY'), TO_DATE('01/04/1999', 'DD/MM/YYYY'), 1);
+EXCEPTION
+WHEN OTHERS THEN
+    ROLLBACK;
+    err_msg := SUBSTR(SQLERRM, 1, 128);
+    dbms_output.put_line(err_msg);
+END;
+/
+--7.3 zespol_date_check wersja 2 - data realizacji > data rozwiazania
+DECLARE
+    err_msg VARCHAR2(128);
+BEGIN 
+INSERT INTO zespol VALUES (1110, 'Test', NULL, TO_DATE('01/04/1999', 'DD/MM/YYYY'), TO_DATE('01/05/2022', 'DD/MM/YYYY'), 1);
 EXCEPTION
 WHEN OTHERS THEN
     ROLLBACK;
