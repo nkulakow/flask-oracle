@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{ the_title }} </h2>
+<form method='POST' action='/viewpracownicy'>
+   <div>
+    <input name='fraza' type='TEXT' width='60' value={{ fraza }}>
+    <p><input value='Wyszukaj' type='SUBMIT'></p>
+  </div>
+</form>
+<p>Wyszukani pracownicy:</p>
+
+<div id="pracownicy-table-container">
+    <table id="pracownicy-table">
+        <tr>
+          <th class="pracownicy-th">Id</th>
+          <th class="pracownicy-th">Imię</th>
+            <th class="pracownicy-th">Nazwisko</th>
+          <th class="pracownicy-th">Ulica</th>
+            <th class="pracownicy-th">Numer domu</th>
+          <th class="pracownicy-th">Numer mieszkania</th>
+            <th class="pracownicy-th">Numer telefonu</th>
+          <th class="pracownicy-th">Mail</th>
+            <th class="pracownicy-th">Czy zablokowany</th>
+          <th class="pracownicy-th">Id województwa</th>
+            <th class="pracownicy-th">Id powiatu</th>
+          <th class="pracownicy-th">Id miejscowości</th>
+        </tr>
+      {% for row in rows %}
+      <tr>
+        {% for cell in row %}
+        <td class="pracownicy-td">{{ cell }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+{% endblock %}
