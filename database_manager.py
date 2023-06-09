@@ -1,4 +1,5 @@
 import cx_Oracle
+import hashlib
 
 
 class DatabaseManager:
@@ -7,6 +8,7 @@ class DatabaseManager:
         self.username = username
         self.password = password
         self.service_name = service_name
+        self.user_id = None
 
     def connect_to_db(self):
         host = '172.17.0.1'
@@ -28,3 +30,25 @@ class DatabaseManager:
         finally:
             connection.close()
             return rows
+
+    def check_login(self, login: str, password: str) -> bool:
+        connection = self.connect_to_db()
+        cursor = connection.cursor()
+        try:
+            query = "SELECT * FROM dane_logowania WHERE login LIKE :login"
+            cursor.execute(query, login=login)
+            rows = cursor.fetchall()
+            print("aaa", rows)
+            cursor.close()
+            connection.close()
+            if len(rows) == 0:
+                return False
+            sha256_hash = hashlib.sha256()
+            sha256_hash.update(password.encode('utf-8'))
+            if sha256_hash.hexdigest() == rows[0][2]:
+                self.user_id = rows[0][0]
+                return True
+            return False
+        except cx_Oracle.Error as e:
+            raise cx_Oracle.Error(e)
+

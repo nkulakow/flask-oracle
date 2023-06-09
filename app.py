@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.exceptions import BadRequestKeyError
 from database_manager import DatabaseManager
 from data_functions import *
+from file_manager import *
 
 app = Flask(__name__)
-database = DatabaseManager("system", "BD2pass", 'TESTDB')
+bd_info = read_bd_info_from_file()
+database = DatabaseManager(bd_info[0], bd_info[1], bd_info[2])
 
 
 def search4vowels(phrase: str) -> set:
@@ -49,11 +51,29 @@ def view_pracownicy():
                                fraza="")
 
 
-@app.route('/')
+@app.route('/login_check', methods=['POST'])
+def login_check():
+    login = request.form['login']
+    password = request.form['password']
+    if database.check_login(login, password):
+        return redirect('/entry')
+    else:
+        return redirect(url_for('login_page', title="Zły login i/lub password"))
+
+
 @app.route('/entry')
 def entry_page():
     return render_template('entry.html',
-                           the_title='Witamy na stronie internetowej search4letters!')
+                           the_title=f'Witamy na stronie internetowej search4letters!')
+
+
+@app.route('/')
+def login_page():
+    title_new = request.args.get('title')
+    if title_new is None:
+        title_new = "Witamy!"
+    return render_template('loginpage.html',
+                           the_title=title_new)
 
 
 if __name__ == '__main__':

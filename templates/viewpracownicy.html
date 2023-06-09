@@ -5,7 +5,7 @@
 <form method='POST' action='/viewpracownicy'>
    <div>
     <input name='fraza' type='TEXT' width='60' value={{ fraza }}>
-    <p><input value='Wyszukaj' type='SUBMIT'></p>
+    <p><input value='Wyszukaj' type='SUBMIT' style="display: inline-block; padding: 10px;"></p>
   </div>
 </form>
 <p>Wyszukani pracownicy:</p>
@@ -35,5 +35,8 @@
       {% endfor %}
     </table>
   </div>
+    <div style="margin-top: 20px;">
+  <button onclick="location.href='/entry'" style="display: inline-block; padding: 10px;">Wróć</button>
+    </div>
 
 {% endblock %}

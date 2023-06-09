@@ -2,7 +2,7 @@ body {
   font-family:      Verdana, Geneva, Arial, sans-serif;
   font-size:        medium;
   background-color: tan;
-  margin-top:       5%;
+  margin-top:       1%;
   margin-bottom:    5%;
   margin-left:      10%;
   margin-right:     10%;
@@ -61,7 +61,7 @@ border:             thin dotted gray;
 
 #pracownicy-table-container {
   width: 1500px;
-  height: 600px;
+  height: 520px;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0;
