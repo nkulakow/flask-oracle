@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{ the_title }} </h2>
+
+<h3 style="border-bottom: 1px solid #ddd;"> Czy na pewno usunąć pracownika o id {{ id }}?</h3>
+<div id="modify-pracownik-container">
+        <form method='POST' action='/deletepracownik'>
+            <input type="hidden" name="id" value="{{ id }}">
+            <p><input value='Usuń pracownika'  type='SUBMIT'></p>
+        </form>
+<div style="margin-top: 20px;">
+<button onclick="location.href='/entry'" style="display: inline-block; padding: 10px;">Anuluj</button>
+</div>
+</div>
+
+{% endblock %}

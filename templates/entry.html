@@ -14,8 +14,9 @@
 <p><input value='Zrób to!' type='SUBMIT'></p>
 </form>
 
-<form method="POST" action="/viewpracownicy">
-    <h2> Wyszukaj</h2>
-    <p><input value='Pracownicy' type="SUBMIT"></p>
-</form>
+<h2> Wyszukaj, modyfikuj i usuwaj pracowników</h2>
+    <button onclick="location.href='/viewpracownicy'" style="display: inline-block; padding: 10px;">Wyszukaj</button>
+<h2>Dodaj nowego pracownika do bazy danych</h2>
+<button onclick="location.href='/gotoaddpracownik'" style="display: inline-block; padding: 10px;">Dodaj</button>
+
 {% endblock %}

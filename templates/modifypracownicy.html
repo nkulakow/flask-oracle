@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{ the_title }} </h2>
+
+<h3 style="border-bottom: 1px solid #ddd;"> Użyj tego formularza, aby edytować pracownika o id {{ id }}:</h3>
+<div id="modify-pracownik-container">
+    <form method='POST' action='/givebenefittppracownik'>
+    <input type="hidden" name="id" value="{{ id }}">
+    <p> Przyznaj benefit </p>
+    <table id="modify-pracownik-table">
+        <tr><td>Id benefitu:</td><td>
+            <select name="benefit_id">
+                {% for benefit in benefity %}
+                    <option value="{{ benefit[0]}}">{{ benefit[1] }}</option>
+                {% endfor %}
+            </select>
+        </td></tr>
+        <tr><td>Data_odebrania:</td><td><input name='return_date' type='TEXT' ></td></tr>
+    </table>
+    <p><input value='Dodaj benefit' type='SUBMIT'></p>
+    </form>
+</div>
+<div id="modify-pracownik-container">
+<form method='POST' action='/modifychosenpracownik'>
+    <input type="hidden" name="id" value="{{ id }}">
+    <p> Zatwierdź/Odrzuć wniosek </p>
+    <table id="modify-pracownik-table">
+        <tr><td>Id wniosku:</td><td>
+            <select name="application_id">
+                {% for benefit in benefity %}
+                    <option value="{{ benefit[0]}}">{{ benefit[1] }}</option>
+                {% endfor %}
+            </select>
+        </td></tr>
+        <tr><td>Wybierz:</td><td>
+            <select name="is_leader">
+              <option value="0">Odrzuć</option>
+              <option value="1">Zatwierdź</option>
+            </select>
+        </td></tr>
+    </table>
+    <p><input value='Edytuj wniosek' type='SUBMIT'></p>
+</form>
+</div>
+<div id="modify-pracownik-container">
+<form method='POST' action='/addtoteampracownik'>
+    <input type="hidden" name="id" value="{{ id }}">
+    <p>Przypisz do zespołu</p>
+    <table id="modify-pracownik-table">
+        <tr><td>Id zespołu:</td><td>
+            <select name="team_id">
+                {% for benefit in benefity %}
+                    <option value="{{ benefit[0]}}">{{ benefit[1] }}</option>
+                {% endfor %}
+            </select>
+        </td></tr>
+        <tr><td>Uczyń liderem:</td><td>
+            <select name="is_leader">
+              <option value="0">Nie</option>
+              <option value="1">Tak</option>
+            </select>
+        </td></tr>
+    </table>
+    <p><input value='Przypisz' type='SUBMIT'></p>
+</form>
+</div>
+<div id="modify-pracownik-container">
+<form method='POST' action='/movetopositionpracownik'>
+    <input type="hidden" name="id" value="{{ id }}">
+    <p>Przypisz do stanowiska</p>
+    <table id="modify-pracownik-table">
+    <tr><td>Id_stanowiska:</td><td>
+        <select name="position_id">
+                {% for benefit in benefity %}
+                    <option value="{{ benefit[0]}}">{{ benefit[1] }}</option>
+                {% endfor %}
+        </select>
+    </td></tr>
+    </table>
+    <p><input value='Przypisz' type='SUBMIT'></p>
+</form>
+</div>
+<div id="modify-pracownik-container">
+<form method='POST' action='/blockpracownik'>
+    <input type="hidden" name="id" value="{{ id }}">
+    <p><input value='Zablokuj pracownika' name="block" type='SUBMIT'></p>
+</form>
+</div>
+
+<div style="margin-top: 20px;">
+<button onclick="location.href='/viewpracownicy'" style="display: inline-block; padding: 10px;">Wróć</button>
+</div>
+
+{% endblock %}

@@ -31,7 +31,7 @@ def do_search():
                            the_results=results, )
 
 
-@app.route('/viewpracownicy', methods=['POST'])
+@app.route('/viewpracownicy', methods=['POST', 'GET'])
 def view_pracownicy():
     rows = database.get_all_pracownicy()
     try:
@@ -49,6 +49,40 @@ def view_pracownicy():
                                rows=rows,
                                the_title="Pracownicy",
                                fraza="")
+
+
+@app.route('/modifypracownik', methods=['POST'])
+def modify_pracownik():
+    Id = request.form['id']
+    # @TODO z bazy danych dać benefity, wnioski ziomka z danym id, wszystkie zespoły i stanowiska w postaci listy jak poniżej
+    benefits = [[1, "Id: 1 Samochod ABC"], [2, "Id: 2 Samochod 2 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]]
+    return render_template('modifypracownicy.html', id=Id, benefity=benefits)
+
+
+@app.route('/deletepracownikcheck', methods=['POST'])
+def delete_pracownik_check():
+    Id = request.form['id']
+    return render_template('deletepracownik.html', id=Id)
+
+
+@app.route('/deletepracownik', methods=['POST'])
+def delete_pracownik():
+    Id = request.form['id']
+    print(Id)
+    # @TODO zaimplementować usuwanie pracownika o danym id
+    return redirect('/entry')
+
+
+@app.route('/gotoaddpracownik', methods=['GET'])
+def go_to_addpracownik():
+    # @TODO wysłać na tą stronę rzeczy takie jak: pary id_stanowiska i jego nazwa
+    return render_template('addpracownik.html')
+
+
+@app.route('/addpracownik', methods=['POST'])
+def addpracownik():
+    # @TODO odebrać dane i walnąć je do db
+    return redirect('/entry')
 
 
 @app.route('/login_check', methods=['POST'])

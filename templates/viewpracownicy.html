@@ -13,26 +13,40 @@
 <div id="pracownicy-table-container">
     <table id="pracownicy-table">
         <tr>
-          <th class="pracownicy-th">Id</th>
-          <th class="pracownicy-th">Imię</th>
-            <th class="pracownicy-th">Nazwisko</th>
-          <th class="pracownicy-th">Ulica</th>
-            <th class="pracownicy-th">Numer domu</th>
-          <th class="pracownicy-th">Numer mieszkania</th>
-            <th class="pracownicy-th">Numer telefonu</th>
-          <th class="pracownicy-th">Mail</th>
-            <th class="pracownicy-th">Czy zablokowany</th>
-          <th class="pracownicy-th">Id województwa</th>
-            <th class="pracownicy-th">Id powiatu</th>
-          <th class="pracownicy-th">Id miejscowości</th>
+        <th class="pracownicy-th">Id</th>
+        <th class="pracownicy-th">Imię</th>
+        <th class="pracownicy-th">Nazwisko</th>
+        <th class="pracownicy-th">Ulica</th>
+        <th class="pracownicy-th">Numer domu</th>
+        <th class="pracownicy-th">Numer mieszkania</th>
+        <th class="pracownicy-th">Numer telefonu</th>
+        <th class="pracownicy-th">Mail</th>
+        <th class="pracownicy-th">Czy zablokowany</th>
+        <th class="pracownicy-th">Id stanowiska</th>
+        <th class="pracownicy-th">Id powiatu</th>
+        <th class="pracownicy-th">Id miejscowości</th>
+        <th style="border-right:none; border-top:none"></th>
         </tr>
       {% for row in rows %}
-      <tr>
-        {% for cell in row %}
-        <td class="pracownicy-td">{{ cell }}</td>
-        {% endfor %}
-      </tr>
+    <tr>
+      <td class="pracownicy-td">{{ row[0] }}</td>
+      <form method="POST" action="/modifypracownik">
+        <input type="hidden" name="id" value="{{ row[0] }}">
+    {% for index in range(1, row|length) %}
+      <td class="pracownicy-td">{{ row[index] }}</td>
       {% endfor %}
+      <td>
+          <button type="submit">Modyfikuj</button>
+        </td>
+      </form>
+    <form method="POST" action="/deletepracownikcheck">
+  <input type="hidden" name="id" value="{{ row[0] }}">
+  <td>
+    <button type="submit">Usuń</button>
+  </td>
+</form>
+    </tr>
+    {% endfor %}
     </table>
   </div>
     <div style="margin-top: 20px;">

@@ -81,6 +81,12 @@ border:             thin dotted gray;
   border-bottom: 1px solid #ddd;
 }
 
+#modify-pracownik-container {
+  border-bottom: 1px solid #ddd;
+}
+#modify-pracownik-table {
+  margin-left: 0;
+}
 
 /*** Inputs ***/
 input[type=text] {
