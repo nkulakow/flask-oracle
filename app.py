@@ -62,7 +62,7 @@ def go_to_addpracownik():
 @app.route('/addpracownik', methods=['POST'])
 def addpracownik():
     data = utilities.read_employee_data()
-    database.insert_into_table(const.TABLE_NAME_EMPLOYEE, data)
+    database.insert_into_table(Table.TABLE_EMPLOYEE, data)
     return redirect('/entry')
 
 
