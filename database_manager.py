@@ -4,6 +4,7 @@ from database_classes.Employee import Employee as db_employee
 import utilities
 import resources.constants as const
 from typing import List
+from database_classes.Table import Table
 
 
 class DatabaseManager:
@@ -35,27 +36,29 @@ class DatabaseManager:
             return rows
 
 
-    def insert_into_table(self, table_name: str, data: List[str]) -> None:
-        query = utilities.make_insert_statement(table_name, data)
+    def insert_into_table(self, table: Table, data: List[str]) -> None:
+        query = utilities.make_insert_statement(table, data)
         connection, cursor = self.connect_to_db()
         try:
             print(query)
             cursor.execute(query)
-            connection.commit()
-            cursor.close()
-        # except cx_Oracle.Error:
-        #     print("Could not execute insert operation.")
-        finally:
-            connection.close()
-
-    def delete_employee(self, employee: db_employee) -> None:
-        connection, cursor = self.connect_to_db()
-        try:
-            cursor.execute(f"DELETE FROM pracownik WHERE id_pracownika = {employee.id}")
             cursor.close()
         except cx_Oracle.Error:
-            print("Could not delete employee from database.")
+            print("Could not execute insert operation.")
         finally:
+            connection.commit()
+            connection.close()
+
+    def delete_from_table(self, table: Table, id: int) -> None:
+        query = utilities.make_delete_statement(table, id)
+        connection, cursor = self.connect_to_db()
+        try:
+            cursor.execute(query)
+            cursor.close()
+        except cx_Oracle.Error:
+            print("Could not delete from database.")
+        finally:
+            connection.commit()
             connection.close()
 
 

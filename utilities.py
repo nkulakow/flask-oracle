@@ -1,5 +1,6 @@
 from flask import request
 from typing import List, Tuple
+from database_classes.Table import Table
 
 
 def read_employee_data() -> List[str]:
@@ -33,9 +34,14 @@ def read_employee_data() -> List[str]:
         ]
 
 
-def make_insert_statement(table_name: str, data: List[str]) -> str:
-    query = f"INSERT INTO {table_name} VALUES ("
+def make_insert_statement(table: Table, data: List[str]) -> str:
+    query = f"INSERT INTO {table.get_name()} VALUES ("
     for piece in data:
         query += f"{piece}, "
     query = query[:-2] + ")"
     return query
+
+
+def make_delete_statement(table: Table, id: int) -> str:
+    id_position_in_table = 0
+    return f"DELETE FROM {table.get_name()} WHERE {table.get_columns()[id_position_in_table]} = {id}"

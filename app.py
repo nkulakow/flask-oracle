@@ -5,6 +5,7 @@ from data_functions import *
 from file_manager import *
 import utilities
 import resources.constants as const
+import database_classes.Table as Table
 
 app = Flask(__name__)
 bd_info = read_bd_info_from_file()
@@ -48,7 +49,7 @@ def delete_pracownik_check():
 @app.route('/deletepracownik', methods=['POST'])
 def delete_pracownik():
     Id = request.form['id']
-    print(Id)
+    database.delete_from_table(Table.TABLE_EMPLOYEE, Id)
     # @TODO zaimplementować usuwanie pracownika o danym id
     return redirect('/entry')
 
