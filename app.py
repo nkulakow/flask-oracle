@@ -3,6 +3,8 @@ from werkzeug.exceptions import BadRequestKeyError
 from database_manager import DatabaseManager
 from data_functions import *
 from file_manager import *
+import utilities
+import resources.constants as const
 
 app = Flask(__name__)
 bd_info = read_bd_info_from_file()
@@ -60,6 +62,8 @@ def go_to_addpracownik():
 @app.route('/addpracownik', methods=['POST'])
 def addpracownik():
     # @TODO odebrać dane i walnąć je do db
+    data = utilities.read_employee_data()
+    database.insert_into_table(const.TABLE_NAME_EMPLOYEE, data)
     return redirect('/entry')
 
 

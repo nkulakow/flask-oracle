@@ -1,6 +1,9 @@
 import cx_Oracle
 import hashlib
 from database_classes.Employee import Employee as db_employee
+import utilities
+import resources.constants as const
+from typing import List
 
 
 class DatabaseManager:
@@ -24,7 +27,6 @@ class DatabaseManager:
         try:
             cursor.execute("SELECT * FROM pracownik")
             rows = cursor.fetchall()
-
             cursor.close()
         except cx_Oracle.Error:
             return f"Error"
@@ -33,26 +35,15 @@ class DatabaseManager:
             return rows
 
 
-    def add_employee(self, employee: db_employee) -> None:
-        id = str(employee.id),
-        name = employee.name,
-        surname = employee.surname,
-        street = employee.street,
-        home_numb = str(employee.home_number),
-        flat_numb = str(employee.flat_number) if employee.flat_number else "NULL",
-        PESEL = employee.PESEL,
-        email = employee.email
-        is_blocked = "1" if is_blocked else "0",
-        pos_id = str(employee.position_id),
-        county_id = str(employee.county_id),
-        town_id = str(employee.town_id)
-        query = f"INSERT INTO pracownik VALUES ({id}, {name}, {surname}, {street}, {home_numb}, {flat_numb}, {PESEL}, {email}, {is_blocked}, {pos_id}, {county_id}, {town_id})"
+    def insert_into_table(self, table_name: str, data: List[str]) -> None:
+        query = utilities.make_insert_statement(table_name, data)
         connection, cursor = self.connect_to_db()
         try:
             cursor.execute(query)
+            cursor.commit()
             cursor.close()
         except cx_Oracle.Error:
-            print("Could not add employee to database.")
+            print("Could not execute insert operation.")
         finally:
             connection.close()
 
