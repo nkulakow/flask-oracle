@@ -21,6 +21,11 @@ class DatabaseManager:
         dsn = cx_Oracle.makedsn(host, port, service_name=self.service_name)
         connection = cx_Oracle.connect(self.username, self.password, dsn)
         return connection, connection.cursor()
+    
+
+    def commit_and_close(self, connection):
+        connection.commit()
+        connection.close()
 
 
     def get_all_pracownicy(self):
@@ -46,8 +51,7 @@ class DatabaseManager:
         except cx_Oracle.Error:
             print("Could not execute insert operation.")
         finally:
-            connection.commit()
-            connection.close()
+            self.commit_and_close(connection)
 
     def delete_from_table(self, table: Table, id: int) -> None:
         query = utilities.make_delete_statement(table, id)
@@ -58,19 +62,21 @@ class DatabaseManager:
         except cx_Oracle.Error:
             print("Could not delete from database.")
         finally:
-            connection.commit()
-            connection.close()
+            self.commit_and_close(connection)
 
 
     def check_login(self, login: str, password: str) -> bool:
-        connection, cursor = self.connect_to_db()
-        try:
+        def get_rows():
             query = "SELECT * FROM dane_logowania WHERE login LIKE :login"
+            connection, cursor = self.connect_to_db()
             cursor.execute(query, login=login)
             rows = cursor.fetchall()
-            print("aaa", rows)
             cursor.close()
             connection.close()
+            return rows
+
+        try:
+            rows = get_rows()
             if len(rows) == 0:
                 return False
             sha256_hash = hashlib.sha256()

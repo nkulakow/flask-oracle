@@ -50,7 +50,6 @@ def delete_pracownik_check():
 def delete_pracownik():
     Id = request.form['id']
     database.delete_from_table(Table.TABLE_EMPLOYEE, Id)
-    # @TODO zaimplementować usuwanie pracownika o danym id
     return redirect('/entry')
 
 
@@ -62,7 +61,6 @@ def go_to_addpracownik():
 
 @app.route('/addpracownik', methods=['POST'])
 def addpracownik():
-    # @TODO odebrać dane i walnąć je do db
     data = utilities.read_employee_data()
     database.insert_into_table(const.TABLE_NAME_EMPLOYEE, data)
     return redirect('/entry')
