@@ -16,12 +16,11 @@ class DatabaseManager:
         port = '1521'
         dsn = cx_Oracle.makedsn(host, port, service_name=self.service_name)
         connection = cx_Oracle.connect(self.username, self.password, dsn)
-        return connection
+        return connection, connection.cursor()
 
 
     def get_all_pracownicy(self):
-        connection = self.connect_to_db()
-        cursor = connection.cursor()
+        connection, cursor = self.connect_to_db()
         try:
             cursor.execute("SELECT * FROM pracownik")
             rows = cursor.fetchall()
@@ -48,8 +47,7 @@ class DatabaseManager:
         county_id = str(employee.county_id),
         town_id = str(employee.town_id)
         query = f"INSERT INTO pracownik VALUES ({id}, {name}, {surname}, {street}, {home_numb}, {flat_numb}, {PESEL}, {email}, {is_blocked}, {pos_id}, {county_id}, {town_id})"
-        connection = self.connect_to_db()
-        cursor = connection.cursor()
+        connection, cursor = self.connect_to_db()
         try:
             cursor.execute(query)
             cursor.close()
@@ -59,8 +57,7 @@ class DatabaseManager:
             connection.close()
 
     def delete_employee(self, employee: db_employee) -> None:
-        connection = self.connect_to_db()
-        cursor = connection.cursor()
+        connection, cursor = self.connect_to_db()
         try:
             cursor.execute(f"DELETE FROM pracownik WHERE id_pracownika = {employee.id}")
             cursor.close()
@@ -71,8 +68,7 @@ class DatabaseManager:
 
 
     def check_login(self, login: str, password: str) -> bool:
-        connection = self.connect_to_db()
-        cursor = connection.cursor()
+        connection, cursor = self.connect_to_db()
         try:
             query = "SELECT * FROM dane_logowania WHERE login LIKE :login"
             cursor.execute(query, login=login)
