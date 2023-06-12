@@ -37,13 +37,13 @@ def modify_pracownik():
     Id = request.form['id']
     # @TODO z bazy danych dać benefity, wnioski ziomka z danym id, wszystkie zespoły i stanowiska w postaci listy jak poniżej
     #pary id i opis
-    demo_benefits = [[1, "Id: 1 Samochod ABC"], [2, "Id: 2 Samochod 2 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]] #dostępne benefity
-    demo_wnioski =[[111, "Id: 111 opis wniosku"]] #wniosek pracownika o Id
-    demo_zespoły=[[12, "Zespoł 12 ...."]] #zespoły z bd
-    demo_pozycje=[[32, "34 Manager IT"]]
+    demo_benefits = database.get_all_bonuses() #dostępne benefity
+    demo_wnioski = database.get_all_applications() #wniosek pracownika o Id
+    demo_zespoły= database.get_all_teams()
+    demo_positions = database.get_all_positions()
     return render_template('modifypracownicy.html', id=Id, benefity=demo_benefits,
                            applications=demo_wnioski, teams=demo_zespoły,
-                           positions=demo_pozycje)
+                           positions=demo_positions)
 
 
 @app.route('/deletepracownikcheck', methods=['POST'])

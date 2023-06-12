@@ -106,3 +106,51 @@ class DatabaseManager:
         cursor.close()
         connection.close()
         return utilities.make_pretty_towns_strings(rows)
+    
+
+    def get_all_teams(self) -> List[Tuple[str, str]]:
+        query = f"SELECT id_zespolu, nazwa_projektu FROM zespol"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return utilities.make_pretty_teams_strings(rows)
+    
+
+    def get_all_bonuses(self):
+        query_cars = f"SELECT id_benefitu, marka, model FROM samochod"
+        query_electronical = f"SELECT id_benefitu, nazwa, marka, model FROM urzadzenie_elektroniczne"
+        query_other = f"SELECT id_benefitu, nazwa, krotki_opis FROM inny_benefit"
+
+        connection, cursor = self.connect_to_db()
+        
+        cursor.execute(query_cars)
+        cars = cursor.fetchall()
+        cursor.execute(query_electronical)
+        electronical = cursor.fetchall()
+        cursor.execute(query_other)
+        other = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+        return utilities.make_pretty_car_strings(cars) + utilities.make_pretty_electronical_devices_strings(electronical) + utilities.make_pretty_other_benefits_strings(other)
+    
+
+    def get_all_applications(self):
+        query_bonus = f"SELECT id_wniosku FROM wniosek_bonus"
+        query_holiday = f"SELECT id_wniosku, rodzaj FROM wniosek_urlop"
+        query_other = f"SELECT id_wniosku, krotki_opis FROM wniosek_inny"
+
+        connection, cursor = self.connect_to_db()
+        
+        cursor.execute(query_bonus)
+        bonuses = cursor.fetchall()
+        cursor.execute(query_holiday)
+        holiday = cursor.fetchall()
+        cursor.execute(query_other)
+        other = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+        return utilities.make_pretty_bonuses_application_strings(bonuses) + utilities.make_pretty_holiday_application_strings(holiday) + utilities.make_pretty_other_application_strings(other)

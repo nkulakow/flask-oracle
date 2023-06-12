@@ -60,3 +60,52 @@ def make_pretty_towns_strings(data: list) -> List[Tuple[str, str]]:
     for county_id, town_id, county_name, town_name in data:
         result.append((f"({county_id},{town_id})", f"{town_name}, pow. {county_name}"))
     return result
+
+
+def make_pretty_teams_strings(data: list) -> List[Tuple[str, str]]:
+    result = []
+    for team_id, proj_name in data:
+        result.append((team_id, f"Zespół {team_id}, projekt '{proj_name}'"))
+    return result
+
+
+def make_pretty_electronical_devices_strings(data: list):
+    result = []
+    for id, name, brand, model in data:
+        result.append((id, f"Urządzenie {id} ({name}), {brand} {model}"))
+    return result
+
+
+def make_pretty_car_strings(data: list):
+    result = []
+    for id, brand, model in data:
+        result.append((id, f"Samochód {id}, {brand} {model}"))
+    return result
+
+
+def make_pretty_other_benefits_strings(data: list):
+    result = []
+    for id, name, description in data:
+        result.append((id, f"Benefit {id} ({name}); {description}"))
+    return result
+
+
+def make_pretty_bonuses_application_strings(data: list):
+    result = []
+    for id in data:
+        result.append((id[0], f"Wniosek nr {id[0]} o przyznanie benefitu"))
+    return result
+
+
+def make_pretty_holiday_application_strings(data: list):
+    result = []
+    for id, type in data:
+        result.append((id, f"Wniosek nr {id} o urlop, rodzaj urlopu: {type}"))
+    return result
+
+
+def make_pretty_other_application_strings(data: list):
+    result = []
+    for id, description in data:
+        result.append((id, f"Wniosek nr {id}, opis: {description}"))
+    return result
