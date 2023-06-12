@@ -10,12 +10,17 @@
         <tr><td>Ulica:</td><td><input name='street' type='TEXT' ></td></tr>
         <tr><td>Numer domu:</td><td><input name='house_nr' type='TEXT' ></td></tr>
         <tr><td>Numer mieszkania:</td><td><input name='flat_nr' type='TEXT' ></td></tr>
-        <tr><td>Numer telefonu:</td><td><input name='phone_nr' type='TEXT' ></td></tr>
+        <tr><td>PESEL:</td><td><input name='pesel' type='TEXT' ></td></tr>
         <tr><td>Mail:</td><td><input name='mail' type='TEXT' ></td></tr>
-        <tr><td>Id powiatu:</td><td><input name='county_id' type='TEXT' ></td></tr>
-        <tr><td>Id miejscowości:</td><td><input name='town_id' type='TEXT' ></td></tr>
+        <tr><td>Id stanowiska:</td><td><input name='position_id' type='TEXT' ></td></tr>
+        <tr><td>Miejscowość:</td><td>
+            <select name="town_id">
+              {% for town in towns %}
+                    <option value="{{ town[0]}}">{{ town[1] }}</option>
+                {% endfor %}
+            </select>
         <tr><td>Login:</td><td><input name='county_id' type='TEXT' ></td></tr>
-        <tr><td>Password:</td><td><input name='town_id' type='TEXT' ></td></tr>
+        <tr><td>Hasło:</td><td><input name='town_id' type='TEXT' ></td></tr>
     </table>
     <p><input value='Dodaj!' type='SUBMIT'></p>
 </form>
