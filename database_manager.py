@@ -39,11 +39,12 @@ class DatabaseManager:
         query = utilities.make_insert_statement(table_name, data)
         connection, cursor = self.connect_to_db()
         try:
+            print(query)
             cursor.execute(query)
-            cursor.commit()
+            connection.commit()
             cursor.close()
-        except cx_Oracle.Error:
-            print("Could not execute insert operation.")
+        # except cx_Oracle.Error:
+        #     print("Could not execute insert operation.")
         finally:
             connection.close()
 

@@ -19,15 +19,16 @@ class Employee:
 
     def get_database_fields(self) -> List[str]:
         return [
-            str(self.id),
-            self.name,
-            self.surname,
-            self.street,
-            str(self.home_number),
-            str(self.flat_number) if self.flat_number else "NULL",
-            self.PESEL,
-            str(self.is_blocked),
-            str(self.position_id),
-            str(self.county_id),
-            str(self.town_id)
+            f"{self.id}",
+            f"'{self.name}'",
+            f"'{self.surname}'",
+            f"'{self.street}'",
+            f"{self.home_number}",
+            f"{self.flat_number}" if self.flat_number else "NULL",
+            f"'{self.PESEL}'",
+            f"'{self.email}'",
+            f"{int(self.is_blocked)}",
+            f"{self.position_id}",
+            f"{self.county_id}",
+            f"{self.town_id}"
         ]
