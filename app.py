@@ -35,8 +35,6 @@ def view_pracownicy():
 @app.route('/modifypracownik', methods=['POST'])
 def modify_pracownik():
     Id = request.form['id']
-    # @TODO z bazy danych dać benefity, wnioski ziomka z danym id, wszystkie zespoły i stanowiska w postaci listy jak poniżej
-    #pary id i opis
     demo_benefits = database.get_all_bonuses() #dostępne benefity
     demo_wnioski = database.get_all_applications() #wniosek pracownika o Id
     demo_zespoły= database.get_all_teams()
@@ -61,7 +59,6 @@ def delete_pracownik():
 
 @app.route('/gotoaddpracownik', methods=['GET'])
 def go_to_addpracownik():
-    # @TODO wysłać na tą stronę towns i positions jak niżej
     demo_positions = database.get_all_positions()
     demo_towns = database.get_all_towns()
     return render_template('addpracownik.html',
