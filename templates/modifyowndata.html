@@ -4,15 +4,17 @@
 <h2>{{ the_title }} </h2>
 <form method='POST' action='/saveownmodification'>
     <table>
-    <p> Użyj tego formularza, aby edytować podstawowe dane {{ id }}:</p>
-        <tr><td>Ulica:</td><td><input name='street' type='TEXT' ></td></tr>
-        <tr><td>Numer domu:</td><td><input name='house_nr' type='TEXT' ></td></tr>
-        <tr><td>Numer mieszkania:</td><td><input name='flat_nr' type='TEXT' ></td></tr>
-        <tr><td>PESEL:</td><td><input name='pesel' type='TEXT' ></td></tr>
-        <tr><td>Mail:</td><td><input name='mail' type='TEXT' ></td></tr>
-        <tr><td>Id powiatu:</td><td><input name='county_id' type='TEXT' ></td></tr>
-        <tr><td>Id miejscowości:</td><td><input name='town_id' type='TEXT' ></td></tr>
-        <tr><td>Hasło:</td><td><input name='town_id' type='TEXT' ></td></tr>
+    <p> Użyj tego formularza, aby edytować podstawowe dane {{ data[0] }}:</p>
+        <tr><td>Imię:</td><td><input name='name' type='TEXT' value="{{ data[1] }}" ></td></tr>
+        <tr><td>Nazwisko:</td><td><input name='surname' type='TEXT' value="{{ data[2] }}" ></td></tr>
+        <tr><td>Ulica:</td><td><input name='street' type='TEXT' value="{{ data[3] }}" ></td></tr>
+        <tr><td>Numer domu:</td><td><input name='house_nr' type='TEXT' value="{{ data[4] }}" ></td></tr>
+        <tr><td>Numer mieszkania:</td><td><input name='flat_nr' type='TEXT' value="{{ data[5] }}" ></td></tr>
+        <tr><td>PESEL:</td><td><input name='pesel' type='TEXT' value="{{ data[6] }}" ></td></tr>
+        <tr><td>Mail:</td><td><input name='mail' type='TEXT' value="{{ data[7] }}" ></td></tr>
+        <tr><td>Id powiatu:</td><td><input name='county_id' type='TEXT' value="{{ data[8] }}" ></td></tr>
+        <tr><td>Id miejscowości:</td><td><input name='town_id' type='TEXT' value="{{ data[9] }}" ></td></tr>
+        <tr><td>Hasło:</td><td><input name='town_id' type='TEXT' value="{{ data[10] }}" ></td></tr>
     </table>
     <p><input value='Zapisz' type='SUBMIT'></p>
 </form>

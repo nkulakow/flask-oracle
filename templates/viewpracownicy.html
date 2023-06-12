@@ -36,13 +36,13 @@
       <td class="pracownicy-td">{{ row[index] }}</td>
       {% endfor %}
       <td>
-          <button type="submit">Modyfikuj</button>
+          <button type="submit" style="font-size:100%;">Modyfikuj</button>
         </td>
       </form>
     <form method="POST" action="/deletepracownikcheck">
   <input type="hidden" name="id" value="{{ row[0] }}">
   <td>
-    <button type="submit">Usuń</button>
+    <button type="submit" style="font-size:100%;">Usuń</button>
   </td>
 </form>
     </tr>

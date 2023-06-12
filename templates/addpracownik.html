@@ -12,7 +12,11 @@
         <tr><td>Numer mieszkania:</td><td><input name='flat_nr' type='TEXT' ></td></tr>
         <tr><td>PESEL:</td><td><input name='pesel' type='TEXT' ></td></tr>
         <tr><td>Mail:</td><td><input name='mail' type='TEXT' ></td></tr>
-        <tr><td>Id stanowiska:</td><td><input name='position_id' type='TEXT' ></td></tr>
+        <tr><td>Id stanowiska:</td><td><select name="town_id">
+              {% for pos in positions %}
+                    <option value="{{ pos[0]}}">{{ pos[1] }}</option>
+                {% endfor %}
+            </select></td></tr>
         <tr><td>Miejscowość:</td><td>
             <select name="town_id">
               {% for town in towns %}

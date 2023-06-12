@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{ the_title }} </h2>
+
+
+<div class="container", style="display: flex;">
+<div style="width : 50%;">
+<h3>Wybierz z listy dostępnych</h3>
+    <form method='POST' action='/addcertficatetopracownik'>
+        <label>
+            <select name="application_id">
+                    {% for certificate in certificates %}
+                        <option value="{{ certificate[0]}}">{{ certificate[1] }}</option>
+                    {% endfor %}
+            </select>
+        </label>
+        <p>Wybierz datę otrzymania</p>
+        <label>
+            <input type='date' name='receive_date' >
+        </label>
+        <p><input value='Dodaj' type='SUBMIT'></p>
+    </form>
+</div>
+
+<div style="width : 50%;">
+<h3>Dodaj nowy certyfikat</h3>
+    <form method='POST' action='/createnewcertificate'>
+    <table>
+        <tr><td>Nazwa:</td><td><input name='name' type='TEXT' ></td></tr>
+        <tr><td>Liczba godzin:</td><td><input name='hours_nr' type='TEXT' ></td></tr>
+        <tr><td>Krótki opis:</td><td><input name='description' type='TEXT' ></td></tr>
+        <tr><td>Wystawiony przez:</td><td><input name='issuer' type='TEXT' ></td></tr>
+    </table>
+        <p>Wybierz datę otrzymania</p>
+        <input type='date' name='receive_date' >
+        <p><input value='Dodaj' type='SUBMIT'></p>
+    </form>
+</div>
+</div>
+
+<div style="margin-top: 20px;">
+    <button onclick="location.href='/simpleentry'" style="display: inline-block; padding: 10px;">Wróć</button>
+</div>
+
+{% endblock %}
