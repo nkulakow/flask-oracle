@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{ the_title }} </h2>
+<form method='POST' action='/saveadditionalcontactdetails'>
+    <table>
+    <p> Użyj tego formularza, aby edytować lub dodać dane kontaktowe {{ id }}:</p>
+        <tr><td>Numer telefonu:</td><td><input name='phone_nr' type='TEXT' ></td></tr>
+        <tr><td>Fax:</td><td><input name='mail' type='TEXT' ></td></tr>
+        <tr><td>Mail prywatny:</td><td><input name='county_id' type='TEXT' ></td></tr>
+    </table>
+    <p><input value='Zapisz' type='SUBMIT'></p>
+</form>
+<div style="margin-top: 20px;">
+    <button onclick="location.href='/simpleentry'" style="display: inline-block; padding: 10px;">Wróć</button>
+</div>
+
+{% endblock %}

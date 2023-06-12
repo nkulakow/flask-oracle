@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{ the_title }} </h2>
+<form method='POST' action='/addpracownik'>
+    <table>
+    <p> Użyj tego formularza, aby dodać pracownika:</p>
+        <tr><td>Imię:</td><td><input name='name' type='TEXT' ></td></tr>
+        <tr><td>Nazwisko:</td><td><input name='surname' type='TEXT' ></td></tr>
+        <tr><td>Ulica:</td><td><input name='street' type='TEXT' ></td></tr>
+        <tr><td>Numer domu:</td><td><input name='house_nr' type='TEXT' ></td></tr>
+        <tr><td>Numer mieszkania:</td><td><input name='flat_nr' type='TEXT' ></td></tr>
+        <tr><td>Numer telefonu:</td><td><input name='phone_nr' type='TEXT' ></td></tr>
+        <tr><td>Mail:</td><td><input name='mail' type='TEXT' ></td></tr>
+        <tr><td>Id powiatu:</td><td><input name='county_id' type='TEXT' ></td></tr>
+        <tr><td>Id miejscowości:</td><td><input name='town_id' type='TEXT' ></td></tr>
+        <tr><td>Login:</td><td><input name='county_id' type='TEXT' ></td></tr>
+        <tr><td>Password:</td><td><input name='town_id' type='TEXT' ></td></tr>
+    </table>
+    <p><input value='Dodaj!' type='SUBMIT'></p>
+</form>
+<div style="margin-top: 20px;">
+    <button onclick="location.href='/entry'" style="display: inline-block; padding: 10px;">Wróć</button>
+</div>
+
+{% endblock %}

@@ -2,20 +2,11 @@
 
 {% block body %}
 
-<h1>{{ the_title }} </h1>
+<h1 id="entry_h1">{{ the_title }} </h1>
 
-<form method='POST' action='/search4'>
-<table>
-<p> Użyj tego formularza, aby określić parametry wyszukiwania:</p>
-<tr><td>Fraza:</td><td><input name='phrase' type='TEXT' width='60'></td></tr>
-<tr><td>Litery:</td><td><input name='letters' type='TEXT' value='aeiou'></td></tr>
-</table>
-<p> Gdy będziesz gotów, kliknij ten przycisk:</p>
-<p><input value='Zrób to!' type='SUBMIT'></p>
-</form>
+<h2> Wyszukaj, modyfikuj i usuwaj pracowników</h2>
+    <button onclick="location.href='/viewpracownicy'" style="display: inline-block; padding: 10px;">Wyszukaj</button>
+<h2>Dodaj nowego pracownika do bazy danych</h2>
+<button onclick="location.href='/gotoaddpracownik'" style="display: inline-block; padding: 10px;">Dodaj</button>
 
-<form method="POST" action="/viewpracownicy">
-    <h2> Wyszukaj</h2>
-    <p><input value='Pracownicy' type="SUBMIT"></p>
-</form>
 {% endblock %}
