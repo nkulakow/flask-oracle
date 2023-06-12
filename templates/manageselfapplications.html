@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{ the_title }} </h2>
+
+
+<div class="table">
+<div class="row" style="display: table-row;">
+<div class="cell" style="display: table-cell; padding: 10px;">
+<h3>Twoje wnioski - urlop</h3>
+    <table id="pracownicy-table">
+        <tr>
+            <th class="pracownicy-th">Id</th>
+            <th class="pracownicy-th">Data złożenia</th>
+            <th class="pracownicy-th">Nazwa załącznika</th>
+            <th class="pracownicy-th">Status</th>
+            <th class="pracownicy-th">Data rozpoczęcia</th>
+            <th class="pracownicy-th">Data zakończenia</th>
+            <th class="pracownicy-th">Rodzaj</th>
+        </tr>
+        {% for row in wnioski_urlop %}
+        <tr>
+        {% for element in row %}
+          <td class="pracownicy-td">{{ element }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="cell" style="display: table-cell; padding: 10px;">
+        <h3>Wniosek o urlop</h3>
+    <form method='POST' action='/applyforvacation'>
+    <table id="pracownicy-table">
+        <tr><td>Nazwa załącznika:</td><td><input name='filename' type='TEXT' ></td></tr>
+        <tr><td>Data rozpoczecia:</td><td><input name='date_start' type='date' ></td></tr>
+        <tr><td>Data zakonczenia:</td><td><input name='date_end' type='date' ></td></tr>
+        <tr><td>Rodzaj:</td><td><input name='type' type='TEXT' ></td></tr>
+    </table>
+        <p><input value='Złóż' type='SUBMIT'></p>
+    </form>
+</div>
+</div>
+<div class="row" style="display: table-row;">
+<div class="cell" style="display: table-cell; padding: 10px;">
+    <h3>Twoje wnioski - bonus</h3>
+    <table id="pracownicy-table">
+        <tr>
+            <th class="pracownicy-th">Id</th>
+            <th class="pracownicy-th">Data złożenia</th>
+            <th class="pracownicy-th">Nazwa załącznika</th>
+            <th class="pracownicy-th">Status</th>
+            <th class="pracownicy-th">Stawka</th>
+            <th class="pracownicy-th">Czy jednorazowy?</th>
+        </tr>
+        {% for row in wnioski_bonus %}
+        <tr>
+        {% for element in row %}
+          <td class="pracownicy-td">{{ element }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="cell", style="display: table-cell; padding: 10px;">
+    <h3>Wniosek o bonus</h3>
+    <form method='POST' action='/applyforbonus'>
+    <table id="pracownicy-table">
+        <tr><td>Nazwa załącznika:</td><td><input name='filename' type='TEXT' ></td></tr>
+        <tr><td>Stawka:</td><td><input name='rate' type='number' ></td></tr>
+        <tr><td>Czy jednorazowy?</td><td>
+            <label><input type="radio" name="once" value="1">Tak</label>
+            <label><input type="radio" name="once" value="0">Nie</label>
+        </td></tr>
+    </table>
+        <p><input value='Złóż' type='SUBMIT'></p>
+    </form>
+</div>
+</div>
+<div class="row" style="display: table-row;">
+<div class="cell" style="display: table-cell; padding: 10px;">
+<h3>Twoje wnioski - inne</h3>
+    <table id="pracownicy-table">
+        <tr>
+            <th class="pracownicy-th">Id</th>
+            <th class="pracownicy-th">Data złożenia</th>
+            <th class="pracownicy-th">Nazwa załącznika</th>
+            <th class="pracownicy-th">Status</th>
+            <th class="pracownicy-th">Krótki opis</th>
+        </tr>
+        {% for row in wnioski_inne %}
+        <tr>
+        {% for element in row %}
+          <td class="pracownicy-td">{{ element }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="cell" style="display: table-cell; padding: 10px;">
+<h3>Inny wniosek</h3>
+    <form method='POST' action='/applyforsthelse'>
+    <table id="pracownicy-table">
+        <tr><td>Nazwa załącznika:</td><td><input name='filename' type='TEXT' ></td></tr>
+        <tr><td>Krótki opis:</td><td><input name='description' type='TEXT' ></td></tr>
+    </table>
+        <p><input value='Złóż' type='SUBMIT'></p>
+    </form>
+</div>
+</div>
+</div>
+
+
+<div style="margin-top: 20px;">
+    <button onclick="location.href='/simpleentry'" style="display: inline-block; padding: 10px;">Wróć</button>
+</div>
+
+{% endblock %}

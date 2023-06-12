@@ -16,13 +16,13 @@
                 {% endfor %}
             </select>
         </td></tr>
-        <tr><td>Data_odebrania:</td><td><input type='date' name='return_date' type='TEXT' ></td></tr>
+        <tr><td>Data_odebrania:</td><td><input type='date' name='return_date' ></td></tr>
     </table>
     <p><input value='Dodaj benefit' type='SUBMIT'></p>
     </form>
 </div>
 <div id="modify-pracownik-container">
-<form method='POST' action='/modifychosenpracownik'>
+<form method='POST' action='/modifychosenapplication'>
     <input type="hidden" name="id" value="{{ id }}">
     <p> Zatwierdź/Odrzuć wniosek </p>
     <table id="modify-pracownik-table">
