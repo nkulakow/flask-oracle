@@ -33,8 +33,14 @@ def view_pracownicy():
 def modify_pracownik():
     Id = request.form['id']
     # @TODO z bazy danych dać benefity, wnioski ziomka z danym id, wszystkie zespoły i stanowiska w postaci listy jak poniżej
-    benefits = [[1, "Id: 1 Samochod ABC"], [2, "Id: 2 Samochod 2 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]]
-    return render_template('modifypracownicy.html', id=Id, benefity=benefits)
+    #pary id i opis
+    demo_benefits = [[1, "Id: 1 Samochod ABC"], [2, "Id: 2 Samochod 2 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]] #dostępne benefity
+    demo_wnioski =[[111, "Id: 111 opis wniosku"]] #wniosek pracownika o Id
+    demo_zespoły=[[12, "Zespoł 12 ...."]] #zespoły z bd
+    demo_pozycje=[[32, "34 Manager IT"]]
+    return render_template('modifypracownicy.html', id=Id, benefity=demo_benefits,
+                           applications=demo_wnioski, teams=demo_zespoły,
+                           positions=demo_pozycje)
 
 
 @app.route('/deletepracownikcheck', methods=['POST'])
@@ -69,6 +75,30 @@ def addpracownik():
 @app.route('/givebenefittoppracownik', methods=['POST'])
 def give_benefit():
     # @TODO dać benefit wybrany z modifypracownicy.html
+    return redirect('/entry')
+
+
+@app.route('/modifychosenapplication', methods=['POST'])
+def modify_application():
+    # @TODO zmienić status wniosku wybranego z modifypracownicy.html
+    return redirect('/entry')
+
+
+@app.route('/addtoteampracownik', methods=['POST'])
+def add_to_team():
+    # @TODO dodać do zespołu i może uczynić liderem, dane z modifypracownicy.html
+    return redirect('/entry')
+
+
+@app.route('/movetopositionpracownik', methods=['POST'])
+def move_to_position():
+    # @TODO zmienić stanowisko z modifypracownicy.html
+    return redirect('/entry')
+
+
+@app.route('/blockpracownik', methods=['POST'])
+def block_pracownik():
+    # @TODO jak się da zablokować pracownika z modifypracownicy.html
     return redirect('/entry')
 
 
@@ -146,7 +176,7 @@ def apply_for_sth_else():
 def login_check():
     login = request.form['login']
     password = request.form['password']
-    # @TODO
+    # @TODO w komentarzu
     """
     zaimplementować inaczej check login - musi sprawdzić czy jest kadrowym czy nie, 
     też imo by sie przydało zapisać imię i nazwisko do bd (mi z gui będzie łatwiej)

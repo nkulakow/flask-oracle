@@ -28,8 +28,8 @@
     <table id="modify-pracownik-table">
         <tr><td>Id wniosku:</td><td>
             <select name="application_id">
-                {% for benefit in benefity %}
-                    <option value="{{ benefit[0]}}">{{ benefit[1] }}</option>
+                {% for app in applications %}
+                    <option value="{{ app[0]}}">{{ app[1] }}</option>
                 {% endfor %}
             </select>
         </td></tr>
@@ -50,8 +50,8 @@
     <table id="modify-pracownik-table">
         <tr><td>Id zespołu:</td><td>
             <select name="team_id">
-                {% for benefit in benefity %}
-                    <option value="{{ benefit[0]}}">{{ benefit[1] }}</option>
+                {% for team in teams %}
+                    <option value="{{ team[0]}}">{{ team[1] }}</option>
                 {% endfor %}
             </select>
         </td></tr>
@@ -72,8 +72,8 @@
     <table id="modify-pracownik-table">
     <tr><td>Id_stanowiska:</td><td>
         <select name="position_id">
-                {% for benefit in benefity %}
-                    <option value="{{ benefit[0]}}">{{ benefit[1] }}</option>
+                {% for pos in positions %}
+                    <option value="{{ pos[0]}}">{{ pos[1] }}</option>
                 {% endfor %}
         </select>
     </td></tr>
