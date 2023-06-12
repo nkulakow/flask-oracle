@@ -1,12 +1,12 @@
 body {
   font-family:      Verdana, Geneva, Arial, sans-serif;
   font-size:        medium;
-  background-color: tan;
+  background-color: #57a0c9;
   margin-top:       1%;
   margin-bottom:    5%;
   margin-left:      10%;
   margin-right:     10%;
-/*  border:           1px dotted gray; */
+  color: #604D53;
   padding:          10px 10px 10px 10px;
 }
 a {
@@ -48,15 +48,14 @@ td, th {
 
 table {
 font-size:          1em;
-background-color:   #fafcff;
+background-color:   #D5C5C8;
 border:             1px solid #909090;
-color:              #2a2a2a;
 padding:            5px 5px 2px;
 border-collapse:    collapse;
 }
 
 td, th {
-border:             thin dotted gray;
+border:             1px solid #ddd;
 }
 
 #pracownicy-table-container {
@@ -86,6 +85,10 @@ border:             thin dotted gray;
 }
 #modify-pracownik-table {
   margin-left: 0;
+}
+
+#entry_h1 {
+  border-bottom: 1px solid #ddd;
 }
 
 /*** Inputs ***/

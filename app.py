@@ -9,28 +9,6 @@ bd_info = read_bd_info_from_file()
 database = DatabaseManager(bd_info[0], bd_info[1], bd_info[2])
 
 
-def search4vowels(phrase: str) -> set:
-    vowels = set('aeiou')
-    return vowels.intersection(set(phrase))
-
-
-def search4letters(phrase: str, letters: str) -> set:
-    return set(letters).intersection(set(phrase))
-
-
-@app.route('/search4', methods=['POST'])
-def do_search():
-    phrase = request.form['phrase']
-    letters = request.form['letters']
-    title = 'Oto Twoje wyniki:'
-    results = str(search4letters(phrase, letters))
-    return render_template('results.html',
-                           the_title=title,
-                           the_phrase=phrase,
-                           the_letters=letters,
-                           the_results=results, )
-
-
 @app.route('/viewpracownicy', methods=['POST', 'GET'])
 def view_pracownicy():
     rows = database.get_all_pracownicy()
@@ -82,6 +60,12 @@ def go_to_addpracownik():
 @app.route('/addpracownik', methods=['POST'])
 def addpracownik():
     # @TODO odebrać dane i walnąć je do db
+    return redirect('/entry')
+
+
+@app.route('/givebenefittoppracownik', methods=['POST'] )
+def give_benefit():
+    # @TODO give
     return redirect('/entry')
 
 

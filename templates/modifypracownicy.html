@@ -5,7 +5,7 @@
 
 <h3 style="border-bottom: 1px solid #ddd;"> Użyj tego formularza, aby edytować pracownika o id {{ id }}:</h3>
 <div id="modify-pracownik-container">
-    <form method='POST' action='/givebenefittppracownik'>
+    <form method='POST' action='/givebenefittoppracownik'>
     <input type="hidden" name="id" value="{{ id }}">
     <p> Przyznaj benefit </p>
     <table id="modify-pracownik-table">
@@ -16,7 +16,7 @@
                 {% endfor %}
             </select>
         </td></tr>
-        <tr><td>Data_odebrania:</td><td><input name='return_date' type='TEXT' ></td></tr>
+        <tr><td>Data_odebrania:</td><td><input type='date' name='return_date' type='TEXT' ></td></tr>
     </table>
     <p><input value='Dodaj benefit' type='SUBMIT'></p>
     </form>
