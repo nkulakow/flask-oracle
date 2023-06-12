@@ -62,9 +62,10 @@ def delete_pracownik():
 @app.route('/gotoaddpracownik', methods=['GET'])
 def go_to_addpracownik():
     # @TODO wysłać na tą stronę towns i positions jak niżej
-    demo_positions = [["1", "Asystent, niekadrowy"], ["2", "Manager, kadrowy"]]
+    demo_positions = database.get_all_positions()
+    demo_towns = database.get_all_towns()
     return render_template('addpracownik.html',
-                           towns=[[(1,1), 'Warszawa, pow. warszawski'], [(3,1), 'Otwock, pow. otwocki']],
+                           towns=demo_towns,
                            positions=demo_positions)
 
 

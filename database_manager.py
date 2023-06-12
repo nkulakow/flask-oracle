@@ -3,7 +3,7 @@ import hashlib
 from database_classes.Employee import Employee as db_employee
 import utilities
 import resources.constants as const
-from typing import List
+from typing import List, Tuple
 from database_classes.Table import Table
 
 
@@ -88,3 +88,21 @@ class DatabaseManager:
         except cx_Oracle.Error as e:
             raise cx_Oracle.Error(e)
 
+    def get_all_positions(self) -> List[Tuple[str, str]]:
+        query = f"SELECT * FROM {const.TABLE_NAME_POSITION}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return utilities.make_pretty_positions_strings(rows)
+    
+
+    def get_all_towns(self) ->List[Tuple[str, str]]:
+        query = f"SELECT m.id_powiatu, m.id_miejscowosci, p.nazwa, m.nazwa FROM miejscowosc m JOIN powiat p ON m.id_powiatu = p.id_powiatu"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return utilities.make_pretty_towns_strings(rows)

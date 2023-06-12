@@ -45,3 +45,18 @@ def make_insert_statement(table: Table, data: List[str]) -> str:
 def make_delete_statement(table: Table, id: int) -> str:
     id_position_in_table = 0
     return f"DELETE FROM {table.get_name()} WHERE {table.get_columns()[id_position_in_table]} = {id}"
+
+
+def make_pretty_positions_strings(data: list) -> List[Tuple[str, str]]:
+    result = []
+    for id, name, is_staff in data:
+        name_is_staff = "kadrowy" if is_staff else "niekadrowy"
+        result.append((str(id), f"{name}, {name_is_staff}"))
+    return result
+
+
+def make_pretty_towns_strings(data: list) -> List[Tuple[str, str]]:
+    result = []
+    for county_id, town_id, county_name, town_name in data:
+        result.append((f"({county_id},{town_id})", f"{town_name}, pow. {county_name}"))
+    return result
