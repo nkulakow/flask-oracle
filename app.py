@@ -69,12 +69,31 @@ def give_benefit():
     return redirect('/entry')
 
 
+@app.route('/modifyowndata', methods=['POST', 'GET'])
+def go_to_modify_own_data():
+    # @TODO wysłać na tą stronę rzeczy takie jak: pary id_stanowiska i jego nazwa
+    return render_template('modifyowndata.html', id=database.user_id)
+
+
+@app.route('/additionalcontactdetails', methods=['POST', 'GET'])
+def go_to_additional_contact_details():
+    return render_template('additionalcontactdetails.html', id=database.user_id)
+
+
+@app.route('/saveadditionalcontactdetails', methods=['POST'])
+def modify_additional_contact_details():
+    return redirect('/simpleentry')
+
+
 @app.route('/login_check', methods=['POST'])
 def login_check():
     login = request.form['login']
     password = request.form['password']
     if database.check_login(login, password):
-        return redirect('/entry')
+        if login == 'jkowalski':
+            return redirect('/entry')
+        else:
+            return redirect('/simpleentry')
     else:
         return redirect(url_for('login_page', title="Zły login i/lub password"))
 
@@ -82,7 +101,13 @@ def login_check():
 @app.route('/entry')
 def entry_page():
     return render_template('entry.html',
-                           the_title=f'Witamy na stronie internetowej search4letters!')
+                           the_title=f'Witamy na stronie internetowej!')
+
+
+@app.route('/simpleentry')
+def simple_entry_page():
+    return render_template('simpleentry.html',
+                           the_title=f'Witamy na stronie internetowej!')
 
 
 @app.route('/')
