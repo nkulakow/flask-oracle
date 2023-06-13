@@ -88,6 +88,17 @@ class DatabaseManager:
             return False
         except cx_Oracle.Error as e:
             raise cx_Oracle.Error(e)
+        
+    
+    def is_user_staff(self) -> bool:
+        query = f"SELECT s.kadrowy FROM pracownik p JOIN stanowisko s ON s.id_stanowiska = p.id_stanowiska WHERE p.id_pracownika = {self.user_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        is_cadre = cursor.fetchall()[0][0]
+        cursor.close()
+        connection.close()
+        return is_cadre == 1
+
 
     def get_all_positions(self) -> List[Tuple[str, str]]:
         query = f"SELECT * FROM {const.TABLE_NAME_POSITION}"

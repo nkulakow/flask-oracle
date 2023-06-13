@@ -190,18 +190,11 @@ def apply_for_sth_else():
 def login_check():
     login = request.form['login']
     password = request.form['password']
-    # @TODO w komentarzu
-    """
-    zaimplementować inaczej check login - musi sprawdzić czy jest kadrowym czy nie, 
-    też imo by sie przydało zapisać imię i nazwisko do bd (mi z gui będzie łatwiej)
-    """
-    if database.check_login(login, password):
-        if login == 'jkowalski':
-            return redirect('/entry')
-        else:
-            return redirect('/simpleentry')
-    else:
-        return redirect(url_for('login_page', title="Zły login i/lub password"))
+    if not database.check_login(login, password):
+        return redirect(url_for('login_page', title="Zły login i/lub hasło"))
+    if database.is_user_staff():
+        return redirect('/entry')
+    return redirect('/simpleentry')
 
 
 @app.route('/entry')
