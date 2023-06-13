@@ -3,8 +3,7 @@
 {% block body %}
 <h2>{{ the_title }} </h2>
 
-<h3 style="border-bottom: 1px solid #ddd;"> Czy na pewno usunąć pracownika o {{ id }} {{ id }} {{ id }}?</h3>
-{#  ^ czy na pewno... 10 Jan Kowalski?  #}
+<h3 style="border-bottom: 1px solid #ddd;"> Czy na pewno usunąć pracownika o ID {{ id }}, {{ name }} {{ surname }}?</h3>
 <div id="modify-pracownik-container">
         <form method='POST' action='/deletepracownik'>
             <input type="hidden" name="id" value="{{ id }}">

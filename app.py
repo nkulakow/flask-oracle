@@ -39,15 +39,19 @@ def modify_pracownik():
     demo_wnioski = database.get_all_applications(Id)
     demo_zespoły= database.get_all_teams()
     demo_positions = database.get_all_positions()
+    imie, nazwisko = database.get_name_and_surname(Id)
     return render_template('modifypracownicy.html', id=Id, benefity=demo_benefits,
                            applications=demo_wnioski, teams=demo_zespoły,
-                           positions=demo_positions)
+                           positions=demo_positions, name=imie, surname=nazwisko)
 
 
 @app.route('/deletepracownikcheck', methods=['POST'])
 def delete_pracownik_check():
     Id = request.form['id']
-    return render_template('deletepracownik.html', id=Id)
+    imie, nazwisko = database.get_name_and_surname(Id)
+    print(imie, nazwisko)
+    return render_template('deletepracownik.html', id=Id,
+                           name=imie, surname=nazwisko)
 
 
 @app.route('/deletepracownik', methods=['POST'])
@@ -222,7 +226,6 @@ def apply_for_bonus():
 
 @app.route('/applyforsthelse', methods=['POST', 'GET'])
 def apply_for_sth_else():
-    # @TODO dodać wniosek inny o danych z manageselfapplications.html do bd
     id = database.gen_next_id(Table.TABLE_APPLICATION)
     date_applied = 'SYSDATE'
     attachment = request.form['filename']
@@ -247,14 +250,22 @@ def login_check():
 
 @app.route('/entry')
 def entry_page():
+    imie, nazwisko = database.get_name_and_surname(database.user_id)
     return render_template('entry.html',
-                           the_title=f'Witamy na stronie internetowej!')
+                           the_title=f'Witamy w aplikacji {imie} {nazwisko}!')
 
 
 @app.route('/simpleentry')
 def simple_entry_page():
+    imie, nazwisko = database.get_name_and_surname(database.user_id)
     return render_template('simpleentry.html',
-                           the_title=f'Witamy na stronie internetowej!')
+                           the_title=f'Witamy w aplikacji {imie} {nazwisko}!')
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def log_out():
+    database.user_id = None
+    return redirect('/')
 
 
 @app.route('/')

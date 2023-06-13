@@ -3,7 +3,7 @@
 {% block body %}
 <h2>{{ the_title }} </h2>
 
-<h3 style="border-bottom: 1px solid #ddd;"> Użyj tego formularza, aby edytować pracownika o id {{ id }}:</h3>
+<h3 style="border-bottom: 1px solid #ddd;"> Użyj tego formularza, aby edytować pracownika o Id {{ id }}, {{ name }} {{ surname }}:</h3>
 <div id="modify-pracownik-container">
     <form method='POST' action='/givebenefittoppracownik'>
     <input type="hidden" name="id" value="{{ id }}">
@@ -56,10 +56,8 @@
             </select>
         </td></tr>
         <tr><td>Uczyń liderem:</td><td>
-            <select name="is_leader">
-              <option value="0">Nie</option>
-              <option value="1">Tak</option>
-            </select>
+            <label><input type="radio" name="is_leader" value="1">Tak</label>
+            <label><input type="radio" name="is_leader" value="0">Nie</label>
         </td></tr>
     </table>
     <p><input value='Przypisz' type='SUBMIT'></p>
