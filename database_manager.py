@@ -358,3 +358,8 @@ class DatabaseManager:
         cursor.execute(query)
         cursor.close()
         self.commit_and_close(connection)
+
+
+    def apply_for_holiday(self, data: list) -> None:
+        id, date_applied, status, emp_id, date_begin, date_end, type = data
+        self.insert_into_table(Table.TABLE_APPLICATION, )

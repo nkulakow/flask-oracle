@@ -179,7 +179,6 @@ def go_to_manage_self_applications():
     demo_wnioski_urlop = database.get_user_holiday_applications()
     demo_wnioski_bonus = database.get_user_bonus_applications()
     demo_wnioski_inne = database.get_user_other_applications()
-    # @TODO Zaimplementować dodawanie wniosków do gui jak wyżej przykład jest
     return render_template('manageselfapplications.html',
                            wnioski_urlop=demo_wnioski_urlop,
                            wnioski_bonus=demo_wnioski_bonus,
@@ -188,19 +187,44 @@ def go_to_manage_self_applications():
 
 @app.route('/applyforvacation', methods=['POST', 'GET'])
 def apply_for_vacation():
-    # @TODO dodać wniosek o urlop o danych z manageselfapplications.html do bd
+    id = database.gen_next_id(Table.TABLE_APPLICATION)
+    date_applied = 'SYSDATE'
+    attachment = request.form['filename']
+    status = 'wyslany'
+    emp_id = database.user_id
+    date_begin = request.form['date_start']
+    date_end = request.form['date_end']
+    type = request.form['type']
+    database.insert_into_table(Table.TABLE_APPLICATION, [id, date_applied, f"'{attachment}'", f"'{status}'", emp_id])
+    database.insert_into_table(Table.TABLE_APPLICATION_HOLIDAY, [id, f"TO_DATE('{date_begin}', 'YYYY/MM/DD')", f"TO_DATE('{date_end}', 'YYYY/MM/DD')", f"'{type}'"])
     return redirect('/simpleentry')
 
 
 @app.route('/applyforbonus', methods=['POST', 'GET'])
 def apply_for_bonus():
-    # @TODO dodać wniosek o bonus o danych z manageselfapplications.html do bd
+    id = database.gen_next_id(Table.TABLE_APPLICATION)
+    date_applied = 'SYSDATE'
+    attachment = request.form['filename']
+    status = 'wyslany'
+    emp_id = database.user_id
+    rate = request.form['rate']
+    once = request.form['once']
+    database.insert_into_table(Table.TABLE_APPLICATION, [id, date_applied, f"'{attachment}'", f"'{status}'", emp_id])
+    database.insert_into_table(Table.TABLE_APPLICATION_BONUS, [id, rate, once])
     return redirect('/simpleentry')
 
 
 @app.route('/applyforsthelse', methods=['POST', 'GET'])
 def apply_for_sth_else():
     # @TODO dodać wniosek inny o danych z manageselfapplications.html do bd
+    id = database.gen_next_id(Table.TABLE_APPLICATION)
+    date_applied = 'SYSDATE'
+    attachment = request.form['filename']
+    status = 'wyslany'
+    emp_id = database.user_id
+    description = request.form['description']
+    database.insert_into_table(Table.TABLE_APPLICATION, [id, date_applied, f"'{attachment}'", f"'{status}'", emp_id])
+    database.insert_into_table(Table.TABLE_APPLICATION_OTHER, [id, f"'{description}'"])
     return redirect('/simpleentry')
 
 

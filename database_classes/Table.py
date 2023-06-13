@@ -58,3 +58,41 @@ TABLE_CERTIFICATE_EMPLOYEE = Table(
     ],
     1
 )
+
+TABLE_APPLICATION = Table(
+    const.TABLE_NAME_APPLICATION,
+    [
+        "id_wniosku",
+        "data_zlozenia",
+        "nazwa_zalacznika",
+        "status",
+        "id_pracownika"
+    ]
+)
+
+TABLE_APPLICATION_HOLIDAY = Table(
+    const.TABLE_NAME_APPLICATION_HOLIDAY,
+    [
+        "id_wniosku",
+        "data_rozpoczecia",
+        "data_zakonczenia",
+        "rodzaj"
+    ]
+)
+
+TABLE_APPLICATION_BONUS = Table(
+    const.TABLE_NAME_APPLICATION_BONUS,
+    [
+        "id_wniosku",
+        "stawka",
+        "czy_jednorazowy",
+    ]
+)
+
+TABLE_APPLICATION_OTHER = Table(
+    const.TABLE_NAME_APPLICATION_OTHER,
+    [
+        "id_wniosku",
+        "krotki_opis"
+    ]
+)
