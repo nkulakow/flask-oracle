@@ -96,3 +96,32 @@ TABLE_APPLICATION_OTHER = Table(
         "krotki_opis"
     ]
 )
+
+TABLE_EMPLOYEE_LOGIN = Table(
+    const.TABLE_NAME_EMPLOYEE_LOGIN,
+    [
+        "id_pracownika",
+        "id_loginu"
+    ]
+)
+
+TABLE_LOGIN_DATA = Table(
+    const.TABLE_NAME_LOGIN_DATA,
+    [
+        "id_loginu",
+        "login",
+        "skrot",
+        "ostatnio_zalogowany"
+    ]
+)
+
+TABLE_CONTACT_DATA = Table(
+    const.TABLE_NAME_CONTACT_DATA,
+    [
+        "id_danych",
+        "nr_telefonu",
+        "fax",
+        "email_prywatny",
+        "id_pracownika"
+    ]
+)

@@ -69,7 +69,13 @@ def go_to_addpracownik():
 @app.route('/addpracownik', methods=['POST'])
 def addpracownik():
     data = utilities.read_employee_data(database.gen_next_id(Table.TABLE_EMPLOYEE))
-    database.insert_into_table(Table.TABLE_EMPLOYEE, data)
+    database.insert_into_table(Table.TABLE_EMPLOYEE, data[:-2])
+    login_id = database.gen_next_id(Table.TABLE_LOGIN_DATA)
+    contact_id = database.gen_next_id(Table.TABLE_CONTACT_DATA)
+    emp_id = data[0]
+    database.insert_into_table(Table.TABLE_LOGIN_DATA, [login_id, f"{data[-2]}", f"{data[-1]}", 'NULL'])
+    database.insert_into_table(Table.TABLE_EMPLOYEE_LOGIN, [emp_id, login_id])
+    database.insert_into_table(Table.TABLE_CONTACT_DATA, [contact_id, 'NULL', 'NULL', 'NULL', emp_id])
     return redirect('/entry')
 
 

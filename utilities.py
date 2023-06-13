@@ -1,12 +1,18 @@
 from flask import request
 from typing import List, Tuple
 import database_classes.Table as Table
+import hashlib
 
 
 def read_employee_data(id) -> List[str]:
     def split_addres_id(address: str) -> Tuple[str, str]:
         address = address[1:-1]
         return address.split(',')
+    
+    def encode_password(password: str) -> str:
+        sha256_hash = hashlib.sha256()
+        sha256_hash.update(password.encode('utf-8'))
+        return sha256_hash.hexdigest()
 
     name = request.form['name']
     surname = request.form['surname']
@@ -18,6 +24,8 @@ def read_employee_data(id) -> List[str]:
     blocked = "0"
     position_id = request.form['position_id']
     county_id, town_id = split_addres_id(request.form['town_id']) # przez listę się coś psuje dlatego [1], trzeba zobaczyc
+    login = request.form['login']
+    password = encode_password(request.form['password'])
     return [
         f'{id}',
         f"'{name}'",
@@ -30,7 +38,9 @@ def read_employee_data(id) -> List[str]:
         f"{int(blocked)}",
         f"{position_id}",
         f"{county_id}",
-        f"{town_id}"
+        f"{town_id}",
+        f"'{login}'",
+        f"'{password}'"
         ]
 
 

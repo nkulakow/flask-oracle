@@ -44,7 +44,7 @@ class DatabaseManager:
     def get_all_pracownicy(self):
         connection, cursor = self.connect_to_db()
         try:
-            cursor.execute("SELECT * FROM pracownik")
+            cursor.execute("SELECT p.* FROM pracownik p JOIN stanowisko s ON p.id_stanowiska = s.id_stanowiska WHERE s.kadrowy = 0")
             rows = cursor.fetchall()
             cursor.close()
         except cx_Oracle.Error:
@@ -56,7 +56,6 @@ class DatabaseManager:
 
     def insert_into_table(self, table: Table.Table, data: List[str]) -> None:
         query = utilities.make_insert_statement(table, data)
-        print(query)
         connection, cursor = self.connect_to_db()
         try:
             cursor.execute(query)
@@ -80,7 +79,7 @@ class DatabaseManager:
 
     def check_login(self, login: str, password: str) -> bool:
         def get_rows():
-            query = "SELECT * FROM dane_logowania WHERE login LIKE :login"
+            query = "SELECT p.id_pracownika, d.login, d.skrot FROM dane_logowania d join pracownik_logowanie p ON d.id_loginu = p.id_loginu WHERE d.login like :login"
             connection, cursor = self.connect_to_db()
             cursor.execute(query, login=login)
             rows = cursor.fetchall()
@@ -353,7 +352,6 @@ class DatabaseManager:
 
     def assign_certificate(self, certiicate_id, date_recieved) -> None:
         query = f"INSERT INTO certyfikat_pracownik VALUES ({certiicate_id}, {self.gen_next_id(Table.TABLE_CERTIFICATE_EMPLOYEE)}, TO_DATE('{date_recieved}', 'YYYY/MM/DD'), {self.user_id})"
-        print(query)
         connection, cursor = self.connect_to_db()
         cursor.execute(query)
         cursor.close()
