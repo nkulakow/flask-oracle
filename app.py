@@ -153,18 +153,25 @@ def go_to_add_certificate():
     return render_template('addcertificate.html', certificates=demo_certs)
 
 
-@app.route('/createnewcertificate', methods=['POST'])
-def add_new_certificate_to_db():
-    # @TODO Zaimplementować dodawanie certyfikatu do bazy danych a potem do pracownika o danych z addcertificate.html
-    return redirect('/simpleentry')
-
-
 @app.route('/addcertficatetopracownik', methods=['POST'])
 def add_certificate_to_pracownik():
-    # @TODO Zaimplementować dodawanie certyfikatu do pracownika o danych z addcertificate.html
     cert_id = request.form['certificate_id']
     date = request.form['receive_date']
     database.assign_certificate(cert_id, date)
+    return redirect('/simpleentry')
+
+
+@app.route('/createnewcertificate', methods=['POST'])
+def add_new_certificate_to_db():
+    # @TODO Zaimplementować dodawanie certyfikatu do bazy danych a potem do pracownika o danych z addcertificate.html
+    id = database.gen_next_id(Table.TABLE_CERTIFICATE)
+    name = request.form['name']
+    hours = request.form['hours_nr']
+    description = request.form['description']
+    issuer = request.form['issuer']
+    date = request.form['receive_date']
+    database.insert_into_table(Table.TABLE_CERTIFICATE, [id, f"'{name}'", hours, f"'{description}'", f"'{issuer}'"])
+    database.assign_certificate(id, date)
     return redirect('/simpleentry')
 
 

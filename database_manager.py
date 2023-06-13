@@ -56,6 +56,7 @@ class DatabaseManager:
 
     def insert_into_table(self, table: Table.Table, data: List[str]) -> None:
         query = utilities.make_insert_statement(table, data)
+        print(query)
         connection, cursor = self.connect_to_db()
         try:
             cursor.execute(query)
