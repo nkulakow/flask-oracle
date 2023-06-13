@@ -163,3 +163,13 @@ class DatabaseManager:
         cursor.callproc('przypisz_benefit', parameters)
         cursor.close()
         self.commit_and_close(connection)
+
+
+    def change_application_status(self, application_id, new_status) -> None:
+        status_approved = "1"
+        status = "zaakceptowany" if new_status == status_approved else "odrzucony"
+        query = f"UPDATE wniosek_t SET status = '{status}' WHERE id_wniosku = {application_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        cursor.close()
+        self.commit_and_close(connection)

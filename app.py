@@ -75,7 +75,6 @@ def addpracownik():
 
 @app.route('/givebenefittoppracownik', methods=['POST'])
 def give_benefit():
-    # @TODO dać benefit wybrany z modifypracownicy.html
     employee_id = request.form['id']
     benefit_id = request.form['benefit_id']
     date = request.form['return_date']
@@ -86,6 +85,9 @@ def give_benefit():
 @app.route('/modifychosenapplication', methods=['POST'])
 def modify_application():
     # @TODO zmienić status wniosku wybranego z modifypracownicy.html
+    application_id = request.form['application_id']
+    status = request.form['status']
+    database.change_application_status(application_id, status)
     return redirect('/entry')
 
 
