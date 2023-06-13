@@ -36,7 +36,7 @@ def view_pracownicy():
 def modify_pracownik():
     Id = request.form['id']
     demo_benefits = database.get_all_bonuses() #dostępne benefity
-    demo_wnioski = database.get_all_applications() #wniosek pracownika o Id
+    demo_wnioski = database.get_all_applications(Id)
     demo_zespoły= database.get_all_teams()
     demo_positions = database.get_all_positions()
     return render_template('modifypracownicy.html', id=Id, benefity=demo_benefits,
@@ -76,6 +76,7 @@ def addpracownik():
 @app.route('/givebenefittoppracownik', methods=['POST'])
 def give_benefit():
     # @TODO dać benefit wybrany z modifypracownicy.html
+
     return redirect('/entry')
 
 

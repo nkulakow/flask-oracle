@@ -119,9 +119,9 @@ class DatabaseManager:
     
 
     def get_all_bonuses(self):
-        query_cars = f"SELECT id_benefitu, marka, model FROM samochod"
-        query_electronical = f"SELECT id_benefitu, nazwa, marka, model FROM urzadzenie_elektroniczne"
-        query_other = f"SELECT id_benefitu, nazwa, krotki_opis FROM inny_benefit"
+        query_cars = f"SELECT id_benefitu, marka, model FROM samochod WHERE id_pracownika is NULL"
+        query_electronical = f"SELECT id_benefitu, nazwa, marka, model FROM urzadzenie_elektroniczne WHERE id_pracownika is NULL"
+        query_other = f"SELECT id_benefitu, nazwa, krotki_opis FROM inny_benefit WHERE id_pracownika is NULL"
 
         connection, cursor = self.connect_to_db()
         
@@ -137,10 +137,10 @@ class DatabaseManager:
         return utilities.make_pretty_car_strings(cars) + utilities.make_pretty_electronical_devices_strings(electronical) + utilities.make_pretty_other_benefits_strings(other)
     
 
-    def get_all_applications(self):
-        query_bonus = f"SELECT id_wniosku FROM wniosek_bonus"
-        query_holiday = f"SELECT id_wniosku, rodzaj FROM wniosek_urlop"
-        query_other = f"SELECT id_wniosku, krotki_opis FROM wniosek_inny"
+    def get_all_applications(self, id):
+        query_bonus = f"SELECT id_wniosku FROM wniosek_bonus WHERE id_pracownika = {id} AND status NOT LIKE 'zaakceptowany'"
+        query_holiday = f"SELECT id_wniosku, rodzaj FROM wniosek_urlop WHERE id_pracownika = {id} AND status NOT LIKE 'zaakceptowany'"
+        query_other = f"SELECT id_wniosku, krotki_opis FROM wniosek_inny WHERE id_pracownika = {id} AND status NOT LIKE 'zaakceptowany'"
 
         connection, cursor = self.connect_to_db()
         
