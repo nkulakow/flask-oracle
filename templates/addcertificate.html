@@ -9,7 +9,7 @@
 <h3>Wybierz z listy dostępnych</h3>
     <form method='POST' action='/addcertficatetopracownik'>
         <label>
-            <select name="application_id">
+            <select name="certificate_id">
                     {% for certificate in certificates %}
                         <option value="{{ certificate[0]}}">{{ certificate[1] }}</option>
                     {% endfor %}

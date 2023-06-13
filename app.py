@@ -68,7 +68,7 @@ def go_to_addpracownik():
 
 @app.route('/addpracownik', methods=['POST'])
 def addpracownik():
-    data = utilities.read_employee_data()
+    data = utilities.read_employee_data(database.gen_next_id(Table.TABLE_EMPLOYEE))
     database.insert_into_table(Table.TABLE_EMPLOYEE, data)
     return redirect('/entry')
 
@@ -140,7 +140,6 @@ def go_to_additional_contact_details():
 
 @app.route('/saveadditionalcontactdetails', methods=['POST'])
 def modify_additional_contact_details():
-    # @TODO Zaimplementować dodawanie danych kontaktowych do pracownika o danych z additionalcontactdetails.html
     phone_num = request.form['phone_nr']
     fax = request.form['fax']
     private_mail = request.form['private_mail']
@@ -150,8 +149,7 @@ def modify_additional_contact_details():
 
 @app.route('/addcertificatetoself', methods=['POST', 'GET'])
 def go_to_add_certificate():
-    # @TODO Pobieranie już dostępnych certyfikatów z bd i utworzenie jakieś tabelki [[str1, str2]] jak niżej
-    demo_certs = [['0', 'certyfikat 1 jakis tam'], ['1', 'certyfikat inny i opis']]
+    demo_certs = database.get_all_certificates()
     return render_template('addcertificate.html', certificates=demo_certs)
 
 
@@ -164,6 +162,9 @@ def add_new_certificate_to_db():
 @app.route('/addcertficatetopracownik', methods=['POST'])
 def add_certificate_to_pracownik():
     # @TODO Zaimplementować dodawanie certyfikatu do pracownika o danych z addcertificate.html
+    cert_id = request.form['certificate_id']
+    date = request.form['receive_date']
+    database.assign_certificate(cert_id, date)
     return redirect('/simpleentry')
 
 

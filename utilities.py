@@ -1,13 +1,13 @@
 from flask import request
 from typing import List, Tuple
-from database_classes.Table import Table
+import database_classes.Table as Table
 
 
-def read_employee_data() -> List[str]:
+def read_employee_data(id) -> List[str]:
     def split_addres_id(address: str) -> Tuple[str, str]:
         address = address[1:-1]
         return address.split(',')
-    id = 300
+
     name = request.form['name']
     surname = request.form['surname']
     street = request.form['street']
@@ -34,7 +34,7 @@ def read_employee_data() -> List[str]:
         ]
 
 
-def make_insert_statement(table: Table, data: List[str]) -> str:
+def make_insert_statement(table: Table.Table, data: List[str]) -> str:
     query = f"INSERT INTO {table.get_name()} VALUES ("
     for piece in data:
         query += f"{piece}, "
@@ -42,7 +42,7 @@ def make_insert_statement(table: Table, data: List[str]) -> str:
     return query
 
 
-def make_delete_statement(table: Table, id: int) -> str:
+def make_delete_statement(table: Table.Table, id: int) -> str:
     id_position_in_table = 0
     return f"DELETE FROM {table.get_name()} WHERE {table.get_columns()[id_position_in_table]} = {id}"
 
@@ -108,4 +108,11 @@ def make_pretty_other_application_strings(data: list):
     result = []
     for id, description in data:
         result.append((id, f"Wniosek nr {id}, opis: {description}"))
+    return result
+
+
+def make_pretty_certificates_strings(data: list):
+    result = []
+    for id, name,description in data:
+        result.append((id, f"Certyfikat nr {id} ({name}), opis: {description if description else ''}"))
     return result

@@ -4,7 +4,7 @@ from database_classes.Employee import Employee as db_employee
 import utilities
 import resources.constants as const
 from typing import List, Tuple
-from database_classes.Table import Table
+import database_classes.Table as Table
 from datetime import datetime
 
 
@@ -15,6 +15,7 @@ class DatabaseManager:
         self.password = password
         self.service_name = service_name
         self.user_id = None
+
 
     def connect_to_db(self):
         host = '172.17.0.1'
@@ -27,6 +28,17 @@ class DatabaseManager:
     def commit_and_close(self, connection):
         connection.commit()
         connection.close()
+
+
+    def gen_next_id(self, table: Table.Table) -> int:
+        id_position_in_table = table.get_id_position()
+        query = f"SELECT max({table.get_columns()[id_position_in_table]}) FROM {table.get_name()}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        id = cursor.fetchall()[0][0]
+        cursor.close()
+        connection.close()
+        return id + 1
 
 
     def get_all_pracownicy(self):
@@ -42,11 +54,10 @@ class DatabaseManager:
             return rows
 
 
-    def insert_into_table(self, table: Table, data: List[str]) -> None:
+    def insert_into_table(self, table: Table.Table, data: List[str]) -> None:
         query = utilities.make_insert_statement(table, data)
         connection, cursor = self.connect_to_db()
         try:
-            print(query)
             cursor.execute(query)
             cursor.close()
         except cx_Oracle.Error:
@@ -54,7 +65,7 @@ class DatabaseManager:
         finally:
             self.commit_and_close(connection)
 
-    def delete_from_table(self, table: Table, id: int) -> None:
+    def delete_from_table(self, table: Table.Table, id: int) -> None:
         query = utilities.make_delete_statement(table, id)
         connection, cursor = self.connect_to_db()
         try:
@@ -237,6 +248,16 @@ class DatabaseManager:
         return utilities.make_pretty_bonuses_application_strings(bonuses) + utilities.make_pretty_holiday_application_strings(holiday) + utilities.make_pretty_other_application_strings(other)
 
 
+    def get_all_certificates(self) -> List[Tuple[str, str]]:
+        query = f"SELECT id_certyfikatu, nazwa, krotki_opis FROM certyfikat"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return utilities.make_pretty_certificates_strings(rows)
+
+
     def give_benefit(self, employee_id, benefit_id, date) -> None:
         connection, cursor = self.connect_to_db()
         parameters = [int(employee_id), int(benefit_id), datetime.strptime(date,'%Y-%m-%d')]
@@ -293,6 +314,15 @@ class DatabaseManager:
 
     def block_employee(self, employee_id) -> None:
         query = f"UPDATE pracownik SET zablokowany = 1 WHERE id_pracownika = {employee_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        cursor.close()
+        self.commit_and_close(connection)
+
+
+    def assign_certificate(self, certiicate_id, date_recieved) -> None:
+        query = f"INSERT INTO certyfikat_pracownik VALUES ({certiicate_id}, {self.gen_next_id(Table.TABLE_CERTIFICATE_EMPLOYEE)}, TO_DATE('{date_recieved}', 'YYYY/MM/DD'), {self.user_id})"
+        print(query)
         connection, cursor = self.connect_to_db()
         cursor.execute(query)
         cursor.close()
