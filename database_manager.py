@@ -122,7 +122,47 @@ class DatabaseManager:
         IDX_PESEL = 2
         IDX_MAIL = 3
         query = f"UPDATE pracownik SET imie = '{new_values[IDX_NAME]}', nazwisko = '{new_values[IDX_SURNAME]}', pesel = '{new_values[IDX_PESEL]}', email = '{new_values[IDX_MAIL]}' WHERE id_pracownika = {self.user_id}"
-        print(query)
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        cursor.close()
+        self.commit_and_close(connection)
+
+    
+    def get_user_contact_data(self) -> list:
+        def default_data() -> list:
+            return ["nr telefonu", "fax", "mail"]
+        
+        def check_for_empty_slots(data) -> None:
+            for i in range(len(data)):
+                if data[i] is None:
+                    data[i] = ''
+            return data
+        
+        if not self.user_id:
+            return default_data()
+        
+        query = f"SELECT nr_telefonu, fax, email_prywatny FROM dane_kontaktowe WHERE id_pracownika = {self.user_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return check_for_empty_slots(list(rows[0]))
+    
+
+    def save_user_contact_data(self, new_values) -> None:
+        def check_for_empty_slots(data) -> None:
+            for i in range(len(data)):
+                if not data[i]:
+                    data[i] = 'NULL'
+                else:
+                    data[i] = f"'{data[i]}'"
+        
+        IDX_PHONE = 0
+        IDX_FAX = 1
+        IDX_MAIL = 2
+        check_for_empty_slots(new_values)
+        query = f"UPDATE dane_kontaktowe SET nr_telefonu = {new_values[IDX_PHONE]}, fax = {new_values[IDX_FAX]}, email_prywatny = {new_values[IDX_MAIL]} WHERE id_pracownika = {self.user_id}"
         connection, cursor = self.connect_to_db()
         cursor.execute(query)
         cursor.close()

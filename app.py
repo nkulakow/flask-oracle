@@ -134,13 +134,17 @@ def save_own_modification():
 
 @app.route('/additionalcontactdetails', methods=['POST', 'GET'])
 def go_to_additional_contact_details():
-    # @TODO zaimplementować pobieranie dodatkowych danych kontaktowych usera z bd, może być jak wyżej
-    return render_template('additionalcontactdetails.html', id=database.user_id)
+    demo_dane = database.get_user_contact_data()
+    return render_template('additionalcontactdetails.html', data=demo_dane)
 
 
 @app.route('/saveadditionalcontactdetails', methods=['POST'])
 def modify_additional_contact_details():
     # @TODO Zaimplementować dodawanie danych kontaktowych do pracownika o danych z additionalcontactdetails.html
+    phone_num = request.form['phone_nr']
+    fax = request.form['fax']
+    private_mail = request.form['private_mail']
+    database.save_user_contact_data([phone_num, fax, private_mail])
     return redirect('/simpleentry')
 
 

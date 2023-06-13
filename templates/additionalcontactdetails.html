@@ -4,10 +4,10 @@
 <h2>{{ the_title }} </h2>
 <form method='POST' action='/saveadditionalcontactdetails'>
     <table>
-    <p> Użyj tego formularza, aby edytować lub dodać dane kontaktowe {{ id }}:</p>
-        <tr><td>Numer telefonu:</td><td><input name='phone_nr' type='TEXT' ></td></tr>
-        <tr><td>Fax:</td><td><input name='mail' type='TEXT' ></td></tr>
-        <tr><td>Mail prywatny:</td><td><input name='county_id' type='TEXT' ></td></tr>
+    <p> Użyj tego formularza, aby edytować lub dodać dane kontaktowe:</p>
+        <tr><td>Numer telefonu:</td><td><input name='phone_nr' type='TEXT' value="{{ data[0] }}" ></td></tr>
+        <tr><td>Fax:</td><td><input name='fax' type='TEXT' value="{{ data[1] }}" ></td></tr>
+        <tr><td>Mail prywatny:</td><td><input name='private_mail' type='TEXT' value="{{ data[2] }}"></td></tr>
     </table>
     <p><input value='Zapisz' type='SUBMIT'></p>
 </form>
