@@ -163,7 +163,6 @@ def add_certificate_to_pracownik():
 
 @app.route('/createnewcertificate', methods=['POST'])
 def add_new_certificate_to_db():
-    # @TODO Zaimplementować dodawanie certyfikatu do bazy danych a potem do pracownika o danych z addcertificate.html
     id = database.gen_next_id(Table.TABLE_CERTIFICATE)
     name = request.form['name']
     hours = request.form['hours_nr']
@@ -177,9 +176,9 @@ def add_new_certificate_to_db():
 
 @app.route('/manageselfapplications', methods=['POST', 'GET'])
 def go_to_manage_self_applications():
-    demo_wnioski_urlop = [[1, '11/02/2023', 'zalacznik.docx', 'R', '21/08/2023', '25/08/2023', 'zdrowotny']]
-    demo_wnioski_bonus = [[103, '22/05/2022', 'aaaa.pdf', 'Z', 100, 1]]
-    demo_wnioski_inne = [[]]
+    demo_wnioski_urlop = database.get_user_holiday_applications()
+    demo_wnioski_bonus = database.get_user_bonus_applications()
+    demo_wnioski_inne = database.get_user_other_applications()
     # @TODO Zaimplementować dodawanie wniosków do gui jak wyżej przykład jest
     return render_template('manageselfapplications.html',
                            wnioski_urlop=demo_wnioski_urlop,

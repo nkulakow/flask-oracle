@@ -116,3 +116,9 @@ def make_pretty_certificates_strings(data: list):
     for id, name,description in data:
         result.append((id, f"Certyfikat nr {id} ({name}), opis: {description if description else ''}"))
     return result
+
+
+def transform_to_string(data:list) -> list:
+    for element in data:
+        element = list(str(value) for value in element)
+    return data

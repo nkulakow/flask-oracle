@@ -257,6 +257,36 @@ class DatabaseManager:
         cursor.close()
         connection.close()
         return utilities.make_pretty_certificates_strings(rows)
+    
+
+    def get_user_bonus_applications(self) -> list:
+        query = f"SELECT id_wniosku, data_zlozenia, nazwa_zalacznika, status, stawka, czy_jednorazowy FROM wniosek_bonus WHERE id_pracownika = {self.user_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = utilities.transform_to_string(cursor.fetchall())
+        cursor.close()
+        connection.close()
+        return rows
+    
+
+    def get_user_holiday_applications(self) -> list:
+        query = f"SELECT id_wniosku, data_zlozenia, nazwa_zalacznika, status, data_rozpoczecia, data_zakonczenia, rodzaj FROM wniosek_urlop WHERE id_pracownika = {self.user_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = utilities.transform_to_string(cursor.fetchall())
+        cursor.close()
+        connection.close()
+        return rows
+    
+
+    def get_user_other_applications(self) -> list:
+        query = f"SELECT id_wniosku, data_zlozenia, nazwa_zalacznika, status, krotki_opis FROM wniosek_inny WHERE id_pracownika = {self.user_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = utilities.transform_to_string(cursor.fetchall())
+        cursor.close()
+        connection.close()
+        return rows
 
 
     def give_benefit(self, employee_id, benefit_id, date) -> None:
