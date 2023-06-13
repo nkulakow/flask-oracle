@@ -76,7 +76,10 @@ def addpracownik():
 @app.route('/givebenefittoppracownik', methods=['POST'])
 def give_benefit():
     # @TODO dać benefit wybrany z modifypracownicy.html
-
+    employee_id = request.form['id']
+    benefit_id = request.form['benefit_id']
+    date = request.form['return_date']
+    database.give_benefit(employee_id, benefit_id, date)
     return redirect('/entry')
 
 

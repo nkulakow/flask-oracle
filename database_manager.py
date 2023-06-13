@@ -5,6 +5,7 @@ import utilities
 import resources.constants as const
 from typing import List, Tuple
 from database_classes.Table import Table
+from datetime import datetime
 
 
 class DatabaseManager:
@@ -118,7 +119,7 @@ class DatabaseManager:
         return utilities.make_pretty_teams_strings(rows)
     
 
-    def get_all_bonuses(self):
+    def get_all_bonuses(self) -> List[Tuple[str, str]]:
         query_cars = f"SELECT id_benefitu, marka, model FROM samochod WHERE id_pracownika is NULL"
         query_electronical = f"SELECT id_benefitu, nazwa, marka, model FROM urzadzenie_elektroniczne WHERE id_pracownika is NULL"
         query_other = f"SELECT id_benefitu, nazwa, krotki_opis FROM inny_benefit WHERE id_pracownika is NULL"
@@ -137,7 +138,7 @@ class DatabaseManager:
         return utilities.make_pretty_car_strings(cars) + utilities.make_pretty_electronical_devices_strings(electronical) + utilities.make_pretty_other_benefits_strings(other)
     
 
-    def get_all_applications(self, id):
+    def get_all_applications(self, id) -> List[Tuple[str, str]]:
         query_bonus = f"SELECT id_wniosku FROM wniosek_bonus WHERE id_pracownika = {id} AND status NOT LIKE 'zaakceptowany'"
         query_holiday = f"SELECT id_wniosku, rodzaj FROM wniosek_urlop WHERE id_pracownika = {id} AND status NOT LIKE 'zaakceptowany'"
         query_other = f"SELECT id_wniosku, krotki_opis FROM wniosek_inny WHERE id_pracownika = {id} AND status NOT LIKE 'zaakceptowany'"
@@ -154,3 +155,11 @@ class DatabaseManager:
         cursor.close()
         connection.close()
         return utilities.make_pretty_bonuses_application_strings(bonuses) + utilities.make_pretty_holiday_application_strings(holiday) + utilities.make_pretty_other_application_strings(other)
+
+
+    def give_benefit(self, employee_id, benefit_id, date) -> None:
+        connection, cursor = self.connect_to_db()
+        parameters = [int(employee_id), int(benefit_id), datetime.strptime(date,'%Y-%m-%d')]
+        cursor.callproc('przypisz_benefit', parameters)
+        cursor.close()
+        self.commit_and_close(connection)
