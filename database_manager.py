@@ -173,3 +173,31 @@ class DatabaseManager:
         cursor.execute(query)
         cursor.close()
         self.commit_and_close(connection)
+
+
+    def assign_to_team(self, employee_id, team_id) -> None:
+        def is_already_in_team(employee_id, team_id) -> bool:
+            query = f"SELECT COUNT(*) FROM zespol_pracownik WHERE id_pracownika = {employee_id} AND id_zespolu = {team_id}"
+            connection, cursor = self.connect_to_db()
+            cursor.execute(query)
+            count = cursor.fetchall()[0][0]
+            cursor.close()
+            connection.close()
+            return count > 0
+
+        if is_already_in_team(employee_id, team_id):
+            return
+        
+        query = f"INSERT INTO zespol_pracownik VALUES ({employee_id}, {team_id})"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        cursor.close()
+        self.commit_and_close(connection)
+
+
+    def make_leader(self, employee_id, team_id) -> None:
+        query = f"UPDATE zespol SET id_lidera = {employee_id} WHERE id_zespolu = {team_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        cursor.close()
+        self.commit_and_close(connection)

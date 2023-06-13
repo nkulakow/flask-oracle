@@ -84,7 +84,6 @@ def give_benefit():
 
 @app.route('/modifychosenapplication', methods=['POST'])
 def modify_application():
-    # @TODO zmienić status wniosku wybranego z modifypracownicy.html
     application_id = request.form['application_id']
     status = request.form['status']
     database.change_application_status(application_id, status)
@@ -94,6 +93,12 @@ def modify_application():
 @app.route('/addtoteampracownik', methods=['POST'])
 def add_to_team():
     # @TODO dodać do zespołu i może uczynić liderem, dane z modifypracownicy.html
+    emp_id = request.form['id']
+    team_id = request.form['team_id']
+    make_leader = request.form['is_leader']
+    database.assign_to_team(emp_id, team_id)
+    if make_leader == "1":
+        database.make_leader(emp_id, team_id)
     return redirect('/entry')
 
 
