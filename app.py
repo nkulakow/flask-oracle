@@ -92,7 +92,6 @@ def modify_application():
 
 @app.route('/addtoteampracownik', methods=['POST'])
 def add_to_team():
-    # @TODO dodać do zespołu i może uczynić liderem, dane z modifypracownicy.html
     emp_id = request.form['id']
     team_id = request.form['team_id']
     make_leader = request.form['is_leader']
@@ -104,13 +103,16 @@ def add_to_team():
 
 @app.route('/movetopositionpracownik', methods=['POST'])
 def move_to_position():
-    # @TODO zmienić stanowisko z modifypracownicy.html
+    emp_id = request.form['id']
+    position_id = request.form['position_id']
+    database.change_position(emp_id, position_id)
     return redirect('/entry')
 
 
 @app.route('/blockpracownik', methods=['POST'])
 def block_pracownik():
-    # @TODO jak się da zablokować pracownika z modifypracownicy.html
+    emp_id = request.form['id']
+    database.block_employee(emp_id)
     return redirect('/entry')
 
 

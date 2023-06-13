@@ -201,3 +201,19 @@ class DatabaseManager:
         cursor.execute(query)
         cursor.close()
         self.commit_and_close(connection)
+
+
+    def change_position(self, employee_id, position_id) -> None:
+        query = f"UPDATE pracownik SET id_stanowiska = {position_id} WHERE id_pracownika = {employee_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        cursor.close()
+        self.commit_and_close(connection)
+
+
+    def block_employee(self, employee_id) -> None:
+        query = f"UPDATE pracownik SET zablokowany = 1 WHERE id_pracownika = {employee_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        cursor.close()
+        self.commit_and_close(connection)
