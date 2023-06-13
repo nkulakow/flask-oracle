@@ -98,6 +98,35 @@ class DatabaseManager:
         cursor.close()
         connection.close()
         return is_cadre == 1
+    
+    
+    def get_user_data(self) -> list:
+        def default_data() -> list:
+            return ["imie", "nazwisko", "pesel", "email służbowy"]
+        
+        if not self.user_id:
+            return default_data()
+        
+        query = f"SELECT imie, nazwisko, pesel, email FROM pracownik WHERE id_pracownika = {self.user_id}"
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return rows[0]
+    
+
+    def save_user_data(self, new_values) -> None:
+        IDX_NAME = 0
+        IDX_SURNAME = 1
+        IDX_PESEL = 2
+        IDX_MAIL = 3
+        query = f"UPDATE pracownik SET imie = '{new_values[IDX_NAME]}', nazwisko = '{new_values[IDX_SURNAME]}', pesel = '{new_values[IDX_PESEL]}', email = '{new_values[IDX_MAIL]}' WHERE id_pracownika = {self.user_id}"
+        print(query)
+        connection, cursor = self.connect_to_db()
+        cursor.execute(query)
+        cursor.close()
+        self.commit_and_close(connection)
 
 
     def get_all_positions(self) -> List[Tuple[str, str]]:

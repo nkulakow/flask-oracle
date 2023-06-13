@@ -118,11 +118,18 @@ def block_pracownik():
 
 @app.route('/modifyowndata', methods=['POST', 'GET'])
 def go_to_modify_own_data():
-    # @TODO dane postawowe z bd usera trzeba wysłać może być w postaci jak demo niżej
-    demo_dane = ["id", "Imię", "Nazwisko", "Ulica", "Numer domu", "Numer mieszkania", "PESEL", "mail służbowy",
-                 "id powiatu", "id miejscowości", "hasło"]
-    # Tylko jeśli jako tabelka to w tej kolejności koniecznie, można też przekazać poprzez oddzielne zmienne
+    demo_dane = database.get_user_data()
     return render_template('modifyowndata.html', data=demo_dane)
+
+
+@app.route('/saveownmodification', methods=['POST', 'GET'])
+def save_own_modification():
+  name = request.form['name']
+  surname = request.form['surname']
+  pesel = request.form['pesel']
+  mail = request.form['mail']
+  database.save_user_data([name, surname, pesel, mail])
+  return redirect('/simpleentry')
 
 
 @app.route('/additionalcontactdetails', methods=['POST', 'GET'])
